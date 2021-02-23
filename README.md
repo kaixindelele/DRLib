@@ -59,7 +59,7 @@ My DRL library with tensorflow1.14 and pytorch, add HER and PER, core codes base
     python train_tf.py
     ```
     
-## File tree and introduction:
+## 3. File tree and introduction:
 ```bash
 .
 ├── algos
@@ -160,3 +160,26 @@ My DRL library with tensorflow1.14 and pytorch, add HER and PER, core codes base
 
 
 ```
+
+
+## 4. HER introduction:
+
+Refer to these code bases:
+
+1. It can be converged, but this code is too difficult. https://github.com/openai/baselines
+
+2. It can also converged, but only for DDPG-torch-cpu. https://github.com/sush1996/DDPG_Fetch
+
+3. It can not be converged, but this code is simpler. https://github.com/Stable-Baselines-Team/stable-baselines
+
+- paper:
+
+https://arxiv.org/pdf/1709.10089.pdf
+
+### Key tricks for HER:
+
+1. state-normalize: success rate from 0 to 1 for FetchPush-v1 task.
+2. Q-clip: success rate from 0.5 to 0.7 for FetchPickAndPlace-v1 task.
+3. action_l2: little effect for Push task.
+
+### Performance about HER-DDPG with FetchPush-v1:
