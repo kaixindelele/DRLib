@@ -1,7 +1,7 @@
 # DRLib
 My DRL library with tensorflow1.14 and pytorch, add HER and PER, core codes based on https://github.com/openai/spinningup
 
-## Installation
+## 1. Installation
 1. Clone the repo and cd into it:
     ```bash
     git clone https://github.com/kaixindelele/DRLib.git
@@ -52,7 +52,7 @@ My DRL library with tensorflow1.14 and pytorch, add HER and PER, core codes base
     ```
 
 
-## Training models
+## 2. Training models
 
 - Example 1. SAC-tf1-HER-PER with FetchPush-v1:
     ```bash 
