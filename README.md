@@ -1,4 +1,4 @@
-# DRLib
+# DRLib：A concise deep reinforcement learning library, integrating HER and PER for almost off policy RL algos
 My DRL library with tensorflow1.14 and pytorch, add HER and PER, core codes based on https://github.com/openai/spinningup
 
 ## 1. Installation
