@@ -1,0 +1,14 @@
+cloudpickle==1.2.1
+ipython==7.19.0
+joblib==1.0.0
+matplotlib==3.3.3
+mpi4py @ file:///tmp/build/80754af9/mpi4py_1594373948151/work
+# or conda install mpi4py -y
+pandas==1.2.0
+psutil==5.8.0
+pyglet==1.5.0
+pytest==6.2.1
+scipy @ file:///tmp/build/80754af9/scipy_1612469579197/work
+seaborn @ file:///tmp/build/80754af9/seaborn_1608578541026/work
+# or seaborn==0.8.1
+tqdm==4.55.0
