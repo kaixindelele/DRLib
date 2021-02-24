@@ -18,6 +18,11 @@ With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://gi
     pip install -r pip_requirement.txt
     ```
     
+    If installation of mpi4py fails, try the following command(Only this one can be installed successfully!):
+    ```bash
+    conda install mpi4py
+    ```
+    
 4. Install tensorflow-gpu=1.14.0
     ```bash 
     conda install tensorflow-gpu==1.14.0 # if you have a CUDA-compatible gpu and proper drivers
@@ -63,6 +68,9 @@ With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://gi
     ```
     
 ## 3. File tree and introduction:
+
+
+
 ```bash
 .
 ├── algos
