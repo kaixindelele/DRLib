@@ -184,3 +184,8 @@ https://arxiv.org/pdf/1709.10089.pdf
 3. action_l2: little effect for Push task.
 
 ### Performance about HER-DDPG with FetchPush-v1:
+
+<p float="middle">
+  <img src="https://img-blog.csdnimg.cn/2021022323234470.png" />
+</p>
+
