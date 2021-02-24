@@ -56,6 +56,8 @@ With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://gi
 ## 2. Training models
 
 - Example 1. SAC-tf1-HER-PER with FetchPush-v1:
+- 1. modify params in arguments.py, choose env, RL-algorithm, use PER and HER or not, gpu-id, and so on.
+- 2. run with train_tf.py or train_torch.py
     ```bash 
     python train_tf.py
     ```
@@ -66,17 +68,17 @@ With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://gi
 ├── algos
 │   ├── pytorch
 │   │   ├── ddpg_sp
-│   │   │   ├── core.py
-│   │   │   ├── ddpg_per_her.py-----inherits from offPolicy.baseOffPolicy, can choose whether or not HER and PER
+│   │   │   ├── core.py-------------It's copied directly from spinup, and modified some details.
+│   │   │   ├── ddpg_per_her.py-----inherits from offPolicy.baseOffPolicy, can choose whether or not HER and PER
 │   │   │   ├── ddpg.py-------------It's copied directly from spinup
 │   │   │   ├── __init__.py
 │   │   ├── __init__.py
 │   │   ├── offPolicy
 │   │   │   ├── baseOffPolicy.py----baseOffPolicy, can be used to DDPG/TD3/SAC and so on.
-│   │   │   ├── norm.py
+│   │   │   ├── norm.py-------------state normalizer, update mean/std with training process.
 │   │   ├── sac_auto
 │   │   ├── sac_sp
-│   │   │   ├── core.py
+│   │   │   ├── core.py-------------likely as before.
 │   │   │   ├── __init__.py
 │   │   │   ├── sac_per_her.py
 │   │   │   └── sac.py
@@ -88,43 +90,38 @@ With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://gi
 │   └── tf1
 │       ├── ddpg_sp
 │       │   ├── core.py
-│       │   ├── DDPG_class.py
-│       │   ├── DDPG_per_class.py
-│       │   ├── DDPG_per_her_class.py
-│       │   ├── DDPG_per_her.py
-│       │   ├── DDPG_sp.py
+│       │   ├── DDPG_class.py------------It's copied directly from spinup, and wrap algorithm from function to class.
+│       │   ├── DDPG_per_class.py--------Add PER.
+│       │   ├── DDPG_per_her_class.py----DDPG with HER and PER without inheriting from offPolicy.
+│       │   ├── DDPG_per_her.py----------Add HER and PER.
+│       │   ├── DDPG_sp.py---------------It's copied directly from spinup, and modified some details.
 │       │   ├── __init__.py
 │       ├── __init__.py
 │       ├── offPolicy
 │       │   ├── baseOffPolicy.py
 │       │   ├── core.py
 │       │   ├── norm.py
-│       ├── sac_auto
+│       ├── sac_auto--------------------SAC with auto adjust alpha parameter version.
 │       │   ├── core.py
 │       │   ├── __init__.py
 │       │   ├── sac_auto_class.py
 │       │   ├── sac_auto_per_class.py
 │       │   └── sac_auto_per_her.py
-│       ├── sac_sp
+│       ├── sac_sp--------------------SAC with alpha=0.2 version.
 │       │   ├── core.py
 │       │   ├── __init__.py
 │       │   ├── SAC_class.py
 │       │   ├── SAC_per_class.py
 │       │   ├── SAC_per_her.py
 │       │   ├── SAC_sp.py
-│       │   └── test_gym_sac_sp_class.py
 │       └── td3_sp
 │           ├── core.py
 │           ├── __init__.py
-│           ├── TD3_cem_class.py
-│           ├── TD3_cem_class_time_analysis.py
 │           ├── TD3_class.py
 │           ├── TD3_per_class.py
-│           ├── TD3_per_class_time_analysis.py
 │           ├── TD3_per_her_class.py
 │           ├── TD3_per_her.py
 │           ├── TD3_sp.py
-│           └── time_wrap.py
 ├── arguments.py-----------------------hyperparams scripts
 ├── drlib_tree.txt
 ├── HER_DRLib_exps---------------------demo exp logs
@@ -138,22 +135,22 @@ With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://gi
 │   │   │   └── Script_backup.py
 ├── memory
 │   ├── __init__.py
-│   ├── per_memory.py
-│   ├── simple_memory.py
-│   ├── sp_memory.py
-│   ├── sp_memory_torch.py
-│   ├── sp_per_memory.py
+│   ├── per_memory.py--------------mofan version
+│   ├── simple_memory.py-----------mofan version
+│   ├── sp_memory.py---------------spinningup tf1 version, simple uniform buffer memory class.
+│   ├── sp_memory_torch.py---------spinningup torch-gpu version, simple uniform buffer memory class.
+│   ├── sp_per_memory.py-----------spinningup tf1 version, PER buffer memory class.
 │   └── sp_per_memory_torch.py
-├── pip_requirement.txt
-├── spinup_utils
-│   ├── delete_no_checkpoint.py
+├── pip_requirement.txt------------pip install requirement, exclude mujoco-py,gym,tf,torch.
+├── spinup_utils-------------------some utils from spinningup, about ploting results, logging, and so on.
+│   ├── delete_no_checkpoint.py----delete the folder where the experiment did not complete.
 │   ├── __init__.py
 │   ├── logx.py
 │   ├── mpi_tf.py
 │   ├── mpi_tools.py
 │   ├── plot.py
-│   ├── print_logger.py
-│   ├── run_utils.py
+│   ├── print_logger.py------------save the information printed by the terminal to the local log file。
+│   ├── run_utils.py---------------now I haven't used it. I have to learn how to multi-process.
 │   ├── serialization_utils.py
 │   └── user_config.py
 ├── train_tf1.py--------------main.py for tf1
