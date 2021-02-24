@@ -211,6 +211,31 @@ https://www.bilibili.com/video/BV1BA411x7Wm
   <img src="https://img-blog.csdnimg.cn/2021022323234470.png" />
 </p>
 
-## 5 PER introduction:
+## 5. PER introduction:
 
 refer to:[off-policy全系列（DDPG-TD3-SAC-SAC-auto）+优先经验回放PER-代码-实验结果分析](https://blog.csdn.net/hehedadaq/article/details/111600080)
+
+## 6. Summary：
+
+这个库我封装了好久，整个代码库简洁、方便、功能比较齐全，在环境配置这块几乎是手把手教程，希望能给大家节省一些时间~
+
+从零开始配置，不到两小时，从下载代码库，到配置环境，到在自己的环境中跑通，全流程非常流畅。
+
+### 6.1. 下一步添加的功能：
+
+1. PPO的封装；
+
+2. DQN的封装；
+
+3. 多进程的封装；
+
+4. ExperimentGrid的封装；
+
+
+## 7. Contact：
+
+深度强化学习-DRL：799378128
+
+欢迎关注知乎帐号：[未入门的炼丹学徒](https://www.zhihu.com/people/heda-he-28)
+
+CSDN帐号：[https://blog.csdn.net/hehedadaq](https://blog.csdn.net/hehedadaq)
