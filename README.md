@@ -170,17 +170,26 @@ Refer to these code bases:
 
 3. It can not be converged, but this code is simpler. https://github.com/Stable-Baselines-Team/stable-baselines
 
-- paper:
+- paper: https://arxiv.org/pdf/1709.10089.pdf
 
-https://arxiv.org/pdf/1709.10089.pdf
 
-### Key tricks for HER:
+### 4.1. My understanding and video:
+
+>种瓜得豆来解释her:
+第一步在春天（state），种瓜（origin-goal）得豆，通过HER，把目标换成种豆，按照之前的操作，可以学会在春天种豆得豆；
+第二步种米得瓜，学会种瓜得瓜；
+即只要是智能体中间经历过的状态，都可以当做它的目标，进行学会。
+即如果智能体能遍历所有的状态空间，那么它就可以学会达到整个状态空间。
+
+https://www.bilibili.com/video/BV1BA411x7Wm
+
+### 4.2. Key tricks for HER:
 
 1. state-normalize: success rate from 0 to 1 for FetchPush-v1 task.
 2. Q-clip: success rate from 0.5 to 0.7 for FetchPickAndPlace-v1 task.
 3. action_l2: little effect for Push task.
 
-### Performance about HER-DDPG with FetchPush-v1:
+### 4.3. Performance about HER-DDPG with FetchPush-v1:
 
 <p float="middle">
   <img src="https://img-blog.csdnimg.cn/2021022323234470.png" />
