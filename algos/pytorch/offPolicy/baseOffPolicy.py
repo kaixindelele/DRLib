@@ -100,6 +100,8 @@ class OffPolicy:
                     self.goal_selection_strategy == "future"):
                 break
             obs, action, reward, next_obs, done, info = copy.deepcopy(transition)
+            # 注意，字典转元组的函数中，需要设定你环境中特定的key！如果搞不定的话，直接用下面的语句替代：
+            # obs_arr = np.concatenate([obs[key1], obs[key2]])
             obs_arr, next_obs_arr = map(self.convert_dict_to_array,
                                         (obs, next_obs))
             try:
