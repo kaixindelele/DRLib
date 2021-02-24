@@ -63,11 +63,13 @@ Compared with spinning up, I delete multi-process and experimental grid wrapper,
 ## 2. Training models
 
 - Example 1. SAC-tf1-HER-PER with FetchPush-v1:
-- 1. modify params in arguments.py, choose env, RL-algorithm, use PER and HER or not, gpu-id, and so on.
-- 2. run with train_tf.py or train_torch.py
+1. modify params in arguments.py, choose env, RL-algorithm, use PER and HER or not, gpu-id, and so on.
+2. run with train_tf.py or train_torch.py
     ```bash 
     python train_tf.py
     ```
+3. exp results to local:https://blog.csdn.net/hehedadaq/article/details/114045615
+4. plot results:https://blog.csdn.net/hehedadaq/article/details/114044217
     
 ## 3. File tree and introduction:
 
