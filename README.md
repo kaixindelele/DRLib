@@ -211,3 +211,6 @@ https://www.bilibili.com/video/BV1BA411x7Wm
   <img src="https://img-blog.csdnimg.cn/2021022323234470.png" />
 </p>
 
+## 5 PER introduction:
+
+refer to:[off-policy全系列（DDPG-TD3-SAC-SAC-auto）+优先经验回放PER-代码-实验结果分析](https://blog.csdn.net/hehedadaq/article/details/111600080)
