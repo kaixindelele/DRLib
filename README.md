@@ -2,6 +2,8 @@
 A concise deep reinforcement learning library, integrating HER and PER for almost off policy RL algos.
 With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://github.com/openai/spinningup
 
+Compared with spinning up, I delete multi-process and experimental grid wrapper, and our advantage is that it is convenient to debug with pycharm~
+
 ## 1. Installation
 1. Clone the repo and cd into it:
     ```bash
