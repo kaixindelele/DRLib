@@ -4,6 +4,21 @@ With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://gi
 
 Compared with spinning up, I delete multi-process and experimental grid wrapper, and our advantage is that it is convenient to debug with pycharm~
 
+## 项目特点：
+
+1. tf1和pytorch两个版本的算法，前者快，后者新，任君选择；
+
+2. 在spinup的基础上，封装了DDPG, TD3, SAC等主流强化算法，相比原来的函数形式的封装，调用更方便，且**加了pytorch的GPU调用**；
+
+3. **添加了HER和PER功能**，非常适合做机器人相关任务的同学们；
+
+4. 去除了自动调参（ExperimentGrid）和多进程（MPI_fork）部分，适合新手在pycharm中debug，前者直接跑经常会报错~
+等我熟练了这两个，我再加上去，并附上详细教程；
+
+5. 最后，全网最详细的环境配置教程！**亲测两个小时内，从零配置完全套环境！**
+
+6. **求三连，不行求个star！**
+
 ## 1. Installation
 1. Clone the repo and cd into it:
     ```bash
