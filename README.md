@@ -1,8 +1,6 @@
-# DRLib：A concise deep reinforcement learning library, integrating HER and PER for almost off policy RL algos
-A concise deep reinforcement learning library, integrating HER and PER for almost off policy RL algos.
-With tensorflow1.14 and pytorch, add HER and PER, core codes based on https://github.com/openai/spinningup
-
-Compared with spinning up, I delete multi-process and experimental grid wrapper, and our advantage is that it is convenient to debug with pycharm~
+# DRLib：A concise deep reinforcement learning library which integrats amost all of off policy RL algos with HER and PER.
+A concise deep reinforcement learning library which integrats amost all of off policy RL algos with HER and PER. The library is written based on the code in https://github.com/openai/spinningup, and can be achieved with tensorflow or pytorch.
+Compared with spinning up, the multi-process and experimental grid wrapper have been deleted for easy application. Besides, the code in our library is convenient to debug with pycharm~
 
 ## 项目特点：
 
@@ -100,12 +98,12 @@ Compared with spinning up, I delete multi-process and experimental grid wrapper,
 │   ├── pytorch
 │   │   ├── ddpg_sp
 │   │   │   ├── core.py-------------It's copied directly from spinup, and modified some details.
-│   │   │   ├── ddpg_per_her.py-----inherits from offPolicy.baseOffPolicy, can choose whether or not HER and PER
+│   │   │   ├── ddpg_per_her.py-----inherits from offPolicy.baseOffPolicy, where one can choose whether or not HER and PER
 │   │   │   ├── ddpg.py-------------It's copied directly from spinup
 │   │   │   ├── __init__.py
 │   │   ├── __init__.py
 │   │   ├── offPolicy
-│   │   │   ├── baseOffPolicy.py----baseOffPolicy, can be used to DDPG/TD3/SAC and so on.
+│   │   │   ├── baseOffPolicy.py----baseOffPolicy, DDPG/TD3/SAC and so on.
 │   │   │   ├── norm.py-------------state normalizer, update mean/std with training process.
 │   │   ├── sac_auto
 │   │   ├── sac_sp
@@ -193,7 +191,7 @@ Compared with spinning up, I delete multi-process and experimental grid wrapper,
 
 ## 4. HER introduction:
 
-Refer to these code bases:
+the achievement of HER is based on the following code :
 
 1. It can be converged, but this code is too difficult. https://github.com/openai/baselines
 
