@@ -168,12 +168,23 @@ def make_plots(all_logdirs, legend=None,
     values = values if isinstance(values, list) else [values]
     condition = 'Condition2' if count else 'Condition1'
     estimator = getattr(np, estimator)      # choose what to show on main curve: mean? max? min?
-    for value in values:
-        plt.figure()
-        plot_data(data, xaxis=xaxis, value=value,
-                  condition=condition, smooth=smooth, estimator=estimator)
-    plt.show()
-    plt.savefig(all_logdirs[0]+'ep_reward.png')
+    # plt.show() is defualt and if can not, just save to local when you plot by ssh.
+    try:
+        for value in values:
+            plt.figure()
+            plot_data(data, xaxis=xaxis, value=value,
+                      condition=condition, smooth=smooth, estimator=estimator)
+        plt.show()
+        plt.savefig(all_logdirs[0]+'ep_reward.png')
+    except Exception as e:
+        print("plot_error:", e)
+        plt.switch_backend('agg')
+        for value in values:
+            plt.figure()
+            plot_data(data, xaxis=xaxis, value=value,
+                      condition=condition, smooth=smooth, estimator=estimator)
+        plt.show()
+        plt.savefig(all_logdirs[0]+'ep_reward.png')
 
 
 def main():
