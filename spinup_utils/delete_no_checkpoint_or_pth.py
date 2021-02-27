@@ -45,7 +45,7 @@ def delete_no_checkpoints(parent):
             # if (change == 'y'):
             try:
                 # 判断后缀是否在集合里，如果没有后缀，那么就是文件夹了
-                if 'pth' not in document and 'pt' not in document and 'checkpoint' not in document and 'progress.txt' in document:
+                if 'pkl' nor in document and 'pth' not in document and 'pt' not in document and 'checkpoint' not in document and 'progress.txt' in document:
                     for doc in document:
                         os.remove(os.path.join(old_path_name, doc))
                     shutil.retree(old_path_name)
