@@ -11,7 +11,7 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 3. **添加了HER和PER功能**，非常适合做机器人相关任务的同学们；
 
 4. 去除了自动调参（ExperimentGrid）和多进程（MPI_fork）部分，适合新手在pycharm中debug，前者直接跑经常会报错~
-等我熟练了这两个，我再加上去，并附上详细教程；
+等我熟练了这两个（**已经看懂了...**），我再加上去，并附上详细教程；
 
 5. 最后，全网最详细的环境配置教程！**亲测两个小时内，从零配置完全套环境！**
 
