@@ -147,6 +147,15 @@ def launch(net, args):
 
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu_id)
+    
+    """        
+        torch1.17.1，gpu_id: 1 device: cuda:0，用的是物理上的0卡；
+        cuda的序号仍然是按照物理序号；
+        torch1.3.1，gpu_id: 1 device: cuda:0，用的是物理上的1卡，
+        torch1.3.1，gpu_id: 1 device: cuda:1，报错：invalid device ordinal；
+        torch1.3.1，gpu_id: 1,3 device: cuda:1，用的是物理上的3卡，
+        有点类似于指定GPU-ID后，cuda会重新排序。        
+    """
 
     device = torch.device("cuda:"+str(args.gpu_id) if torch.cuda.is_available() and args.gpu_id != -1 else 'cpu')
     print("gpu_id:", args.gpu_id,
