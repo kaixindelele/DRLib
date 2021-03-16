@@ -148,7 +148,7 @@ def launch(net, args):
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu_id)
 
-    device = torch.device("cuda" if torch.cuda.is_available() and args.gpu_id != -1 else 'cpu')
+    device = torch.device("cuda:"+str(args.gpu_id) if torch.cuda.is_available() and args.gpu_id != -1 else 'cpu')
     print("gpu_id:", args.gpu_id,
           "device:", device)
 
