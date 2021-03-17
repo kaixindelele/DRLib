@@ -39,6 +39,18 @@
         19.上面的分析，可能有点迷惑，我写的也不严谨。
         20.大概的意思是，如果采样出的目标，不是能一步到达的，给的奖励也是-1，但对最终的学习也有帮助；
         21.如果大家能捋出更符合MDP的逻辑来就更好了；
+
+    假设在step7的时候，采样了step9的achieved_goal9当desired_goal，那么可以将流程图简化成如下：        
+    ----------------------------------------------------------------------------------
+    -->step7-->             -->step8            -->step9          -->step49
+       achieved_goal7       != achieved_goal8  !=  achieved_goal9 == achieved_goal49
+       desired_goal         == desired_goal   == desired_goal    ==  desired_goal   == desired_goal
+       a7      ↓                 a8                  a9                a49
+               ↓     动了                 动了             没动
+       achieved_goal9
+       new_reward ↓
+       int(achieved_goal9==achieved_goal8)
+    ---------------------------------------------------------------------------------
     
 """
 for transition_idx, transition in enumerate(episode_trans):
