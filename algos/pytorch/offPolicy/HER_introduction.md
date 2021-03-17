@@ -6,6 +6,12 @@
 ```python
 """
     假设episode_trans里面有50个steps；
+    里面的数据形式如下：
+    episode_trans=[transition1, transition2,...transition50]
+    transtion1=obs, action, reward, next_obs, done, info
+    obs其实是一个字典，里面有obs['desired_goal'], obs['achieved_goal'], obs['observation']
+    next_obs是另一个字典，算是s'，内容和obs是一致的；
+    
     从step1开始，step50结束；
     我们只考虑其中的step1，step7,8,9，以及step49；
     整个回合的运动状态可以用下面的流程简化：
