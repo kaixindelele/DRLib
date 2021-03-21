@@ -1,3 +1,14 @@
+"""
+相比于原始的plot.py文件，增加了如下的功能：
+1.可以直接在pycharm或者vscode执行，也可以用命令行传参；
+2.按exp_name排序，而不是按时间排序；
+3.固定好每个exp_name的颜色；
+4.可以调节曲线的线宽，便于观察；
+5.保存图片到本地，便于远程ssh画图~
+
+
+"""
+
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,7 +25,9 @@ units = dict()
 
 
 def plot_data(data, xaxis='Epoch', value="TestEpRet",
-              condition="Condition1", smooth=1, **kwargs):
+              condition="Condition1", smooth=1,
+              linewidth=4,
+              **kwargs):
     if smooth > 1:
         """
         smooth data with moving window average.
@@ -26,26 +39,63 @@ def plot_data(data, xaxis='Epoch', value="TestEpRet",
         for datum in data:
             x = np.asarray(datum[value])
             z = np.ones(len(x))
-            smoothed_x = np.convolve(x,y,'same') / np.convolve(z,y,'same')
+            smoothed_x = np.convolve(x, y, 'same') / np.convolve(z, y, 'same')
             datum[value] = smoothed_x
 
     if isinstance(data, list):
         data = pd.concat(data, ignore_index=True)
-    sns.set(style="darkgrid", font_scale=1.5)
-    sns.tsplot(data=data, time=xaxis, value=value, unit="Unit", condition=condition, ci='sd', **kwargs)
+    sns.set(style="darkgrid", font_scale=1.75,
+            )
+
+    # data按照lenged排序；
+    data.sort_values(by='Condition1', axis=0)
+
+    sns.tsplot(data=data,
+               time=xaxis,
+               value=value,
+               unit="Unit",
+               condition=condition,
+               ci='sd',
+               linewidth=linewidth,
+               color=sns.color_palette("Paired", len(data)),
+               # palette=sns.color_palette("hls", 8),
+               **kwargs)
     """
     If you upgrade to any version of Seaborn greater than 0.8.1, switch from 
     tsplot to lineplot replacing L29 with:
 
         sns.lineplot(data=data, x=xaxis, y=value, hue=condition, ci='sd', **kwargs)
 
-    Changes the colorscheme and the default legend style, though.
+    Changes the colorscheme and the default legend style, though.        
+    
+    plt.legend()
+        loc:图例位置,可取('best', 'upper right', 'upper left', 'lower left', 'lower right', 
+            'right', 'center left', 'center , right', 'lower center', 'upper center', 'center')
+            若是使用了bbox_to_anchor,则这项就无效了
+        fontsize: int或float或{'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'},字体大小；
+        frameon: 是否显示图例边框,
+        ncol: 图例的列的数量,默认为1,
+        title: 为图例添加标题
+        shadow: 是否为图例边框添加阴影,
+        markerfirst: True表示图例标签在句柄右侧,false反之,
+        markerscale: 图例标记为原图标记中的多少倍大小,
+        numpoints: 表示图例中的句柄上的标记点的个数,一般设为1,
+        fancybox: 是否将图例框的边角设为圆形
+        framealpha: 控制图例框的透明度
+        borderpad: 图例框内边距
+        labelspacing: 图例中条目之间的距离
+        handlelength: 图例句柄的长度
+        bbox_to_anchor: (横向看右,纵向看下),如果要自定义图例位置或者将图例画在坐标外边,用它,
+            比如bbox_to_anchor=(1.4,0.8),这个一般配合着ax.get_position(),
+            set_position([box.x0, box.y0, box.width*0.8 , box.height])使用
+
     """
-    # plt.legend(loc='upper center', ncol=6, handlelength=1,
-    #            mode="expand", borderaxespad=0., prop={'size': 13})
-    # plt.legend(loc='best').set_draggable(True)
-    plt.legend(loc='best') # origin
-    # plt.legend(bbox_to_anchor=(-0.1, 0.9), loc=0)  #added by zll
+    plt.legend(loc='upper center',
+               ncol=1,
+               handlelength=6,
+               mode="expand",
+               borderaxespad=0.,
+               )
     """
     For the version of the legend used in the Spinning Up benchmarking page, 
     swap L38 with:
@@ -72,37 +122,88 @@ def get_datasets(logdir, condition=None):
     global exp_idx
     global units
     datasets = []
+    roots = []
+    exp_names = []
     for root, _, files in os.walk(logdir):
         if 'progress.txt' in files:
             exp_name = None
             try:
-                config_path = open(os.path.join(root,'config.json'))
+                config_path = open(os.path.join(root, 'config.json'))
                 config = json.load(config_path)
                 if 'exp_name' in config:
                     exp_name = config['exp_name']
-            except:
+                exp_names.append(exp_name)
+                roots.append(root)
+            except Exception as e:
+                print("e:", e)
                 print('No file named config.json')
-            condition1 = condition or exp_name or 'exp'
-            condition2 = condition1 + '-' + str(exp_idx)
-            exp_idx += 1
-            if condition1 not in units:
-                units[condition1] = 0
-            unit = units[condition1]
-            units[condition1] += 1
+    roots_names_dict = {exp_names[index]: roots[index] for index in range(len(exp_names))}
+    for key, value in roots_names_dict.items():
+        print(key, value)
+    # 按照实验名排序
+    roots_names_list = sorted(roots_names_dict.items(), key=lambda x: x[0])
+    print(roots_names_list)
+    roots_names_dict = {tup[0]: tup[1] for tup in roots_names_list}
 
-            try:
-                exp_data = pd.read_table(os.path.join(root,'progress.txt'))
-            except:
-                print('Could not read from %s'%os.path.join(root,'progress.txt'))
-                continue
-            # performance = 'AverageTestEpRet' if 'AverageTestEpRet' in exp_data else 'TestEpRet'
-            # performance = 'AverageEpRet' if 'AverageTestEpRet' in exp_data else 'AverageEpRet'
-            performance = 'TestSuccess' if 'TestSuccess' in exp_data else 'AverageEpRet'
-            exp_data.insert(len(exp_data.columns),'Unit',unit)
-            exp_data.insert(len(exp_data.columns),'Condition1',condition1)
-            exp_data.insert(len(exp_data.columns),'Condition2',condition2)
-            exp_data.insert(len(exp_data.columns),'Performance',exp_data[performance])
-            datasets.append(exp_data)
+    print(roots_names_dict)
+    for exp_name, root in roots_names_dict.items():
+        condition1 = condition or exp_name or 'exp'
+        condition2 = condition1 + '-' + str(exp_idx)
+        exp_idx += 1
+        if condition1 not in units:
+            units[condition1] = 0
+        unit = units[condition1]
+        units[condition1] += 1
+
+        try:
+            exp_data = pd.read_table(os.path.join(root, 'progress.txt'))
+            line_num = len(exp_data)
+            print('line num:{}, read from {}'.format(line_num,
+                                                     os.path.join(root, 'progress.txt')))
+        except:
+            print('Could not read from %s' % os.path.join(root, 'progress.txt'))
+            continue
+        performance = 'TestSuccess' if 'TestSuccess' in exp_data else 'AverageEpRet'
+        exp_data.insert(len(exp_data.columns), 'Unit', unit)
+        exp_data.insert(len(exp_data.columns), 'Condition1', condition1)
+        exp_data.insert(len(exp_data.columns), 'Condition2', condition2)
+        exp_data.insert(len(exp_data.columns), 'Performance', exp_data[performance])
+        datasets.append(exp_data)
+    # 默认按照时间顺序获取文件夹数据
+    # for root, _, files in os.walk(logdir):
+    #     if 'progress.txt' in files:
+    #         exp_name = None
+    #         try:
+    #             config_path = open(os.path.join(root, 'config.json'))
+    #             config = json.load(config_path)
+    #             if 'exp_name' in config:
+    #                 exp_name = config['exp_name']
+    #         except:
+    #             print('No file named config.json')
+    #         condition1 = condition or exp_name or 'exp'
+    #         condition2 = condition1 + '-' + str(exp_idx)
+    #         exp_idx += 1
+    #         if condition1 not in units:
+    #             units[condition1] = 0
+    #         unit = units[condition1]
+    #         units[condition1] += 1
+    #
+    #         try:
+    #             exp_data = pd.read_table(os.path.join(root, 'progress.txt'))
+    #             line_num = len(exp_data)
+    #             print('line num:{}, read from {}'.format(line_num,
+    #                                                      os.path.join(root, 'progress.txt')))
+    #         except:
+    #             print('Could not read from %s' % os.path.join(root, 'progress.txt'))
+    #             continue
+    #         # performance = 'AverageTestEpRet' if 'AverageTestEpRet' in exp_data else 'TestEpRet'
+    #         # performance = 'AverageEpRet' if 'AverageTestEpRet' in exp_data else 'AverageEpRet'
+    #         performance = 'TestSuccess' if 'TestSuccess' in exp_data else 'AverageEpRet'
+    #         exp_data.insert(len(exp_data.columns),'Unit',unit)
+    #         exp_data.insert(len(exp_data.columns),'Condition1',condition1)
+    #         exp_data.insert(len(exp_data.columns),'Condition2',condition2)
+    #         exp_data.insert(len(exp_data.columns),'Performance',exp_data[performance])
+    #         datasets.append(exp_data)
     return datasets
 
 
@@ -117,14 +218,14 @@ def get_all_datasets(all_logdirs, legend=None, select=None, exclude=None):
     """
     logdirs = []
     for logdir in all_logdirs:
-        if osp.isdir(logdir) and logdir[-1]==os.sep:
+        if osp.isdir(logdir) and logdir[-1] == os.sep:
             logdirs += [logdir]
         else:
             basedir = osp.dirname(logdir)
-            fulldir = lambda x : osp.join(basedir, x)
+            fulldir = lambda x: osp.join(basedir, x)
             prefix = logdir.split(os.sep)[-1]
             print("basedir:", basedir)
-            listdir= os.listdir(basedir)
+            listdir = os.listdir(basedir)
             logdirs += sorted([fulldir(x) for x in listdir if prefix in x])
 
     """
@@ -162,45 +263,61 @@ def make_plots(all_logdirs, legend=None,
                xaxis=None, values=None,
                count=False,
                font_scale=1.5, smooth=1,
+               linewidth=4,
                select=None, exclude=None,
                estimator='mean'):
     data = get_all_datasets(all_logdirs, legend, select, exclude)
     values = values if isinstance(values, list) else [values]
     condition = 'Condition2' if count else 'Condition1'
     estimator = getattr(np, estimator)      # choose what to show on main curve: mean? max? min?
-    # plt.show() is defualt and if can not, just save to local when you plot by ssh.
+    for value in values:
+        plt.figure()
+        plot_data(data, xaxis=xaxis, value=value,
+                  condition=condition, smooth=smooth, estimator=estimator,
+                  linewidth=linewidth)
+    plt.savefig(all_logdirs[0] + 'ep_reward.png',
+                bbox_inches='tight',
+                dpi=300,
+                )
     try:
-        for value in values:
-            plt.figure()
-            plot_data(data, xaxis=xaxis, value=value,
-                      condition=condition, smooth=smooth, estimator=estimator)
+        # 如果非远程，则显示图片
         plt.show()
-        plt.savefig(all_logdirs[0]+'ep_reward.png')
-    except Exception as e:
-        print("plot_error:", e)
-        plt.switch_backend('agg')
-        for value in values:
-            plt.figure()
-            plot_data(data, xaxis=xaxis, value=value,
-                      condition=condition, smooth=smooth, estimator=estimator)
-        plt.show()
-        plt.savefig(all_logdirs[0]+'ep_reward.png')
+    except:
+        pass
+
+    # plt.savefig(all_logdirs[0]+'ep_reward.png',
+    #             bbox_inches='tight')
 
 
 def main():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('logdir', nargs='*')
+    import sys
+    if len(sys.argv) > 1:
+        print("run in command")
+        print("argv:", sys.argv)
+        print('-'*30)
+        parser.add_argument('logdir', nargs='*')
+    else:
+        print("run in pycharm")
+        print('-' * 30)
+        parser.add_argument('--logdir', '-r', type=list,
+                            default=[
+                                     '/home/lyl/robot_code/DRLib/spinup_utils/HER_DRLib_rew_push_single_exps2/',
+                                     # '/home/lyl/robot_code/DRLib/spinup_utils/HER_DRLib_rew_push_fork_exps2/',
+                                     ])
     parser.add_argument('--legend', '-l', nargs='*')
     parser.add_argument('--xaxis', '-x', default='TotalEnvInteracts')
     parser.add_argument('--value', '-y', default='Performance', nargs='*')
     parser.add_argument('--count', action='store_true')
     # parser.add_argument('--count', default="False")
     parser.add_argument('--smooth', '-s', type=int, default=20)
+    parser.add_argument('--linewidth', '-lw', type=float, default=4)
     parser.add_argument('--select', nargs='*')
     parser.add_argument('--exclude', nargs='*')
     parser.add_argument('--est', default='mean')
     args = parser.parse_args()
+    print(args)
     """
 
     Args: 
@@ -252,7 +369,8 @@ def main():
 
     make_plots(args.logdir, args.legend, args.xaxis, args.value, args.count,
                smooth=args.smooth, select=args.select, exclude=args.exclude,
-               estimator=args.est)
+               estimator=args.est,
+               linewidth=args.linewidth)
 
 
 if __name__ == "__main__":
