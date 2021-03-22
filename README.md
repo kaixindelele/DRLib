@@ -226,7 +226,11 @@ the achievement of HER is based on the following code :
 即只要是智能体中间经历过的状态，都可以当做它的目标，进行学会。
 即如果智能体能遍历所有的状态空间，那么它就可以学会达到整个状态空间。
 
-https://www.bilibili.com/video/BV1BA411x7Wm
+论文分析视频：https://www.bilibili.com/video/BV1BA411x7Wm
+
+代码分析文档：https://github.com/kaixindelele/DRLib/blob/main/algos/pytorch/offPolicy/HER_introduction.md
+
+
 
 ### 4.2. Key tricks for HER:
 
