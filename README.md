@@ -77,12 +77,28 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 
 - Example 1. SAC-tf1-HER-PER with FetchPush-v1:
 1. modify params in arguments.py, choose env, RL-algorithm, use PER and HER or not, gpu-id, and so on.
+
 2. run with train_tf.py or train_torch.py
     ```bash 
     python train_tf.py
     ```
+
 3. exp results to local:https://blog.csdn.net/hehedadaq/article/details/114045615
+
 4. plot results:https://blog.csdn.net/hehedadaq/article/details/114044217
+
+>相比于原始的plot.py文件，增加了如下的功能
+>
+>1.可以直接在pycharm或者vscode执行，也可以用命令行传参；
+>
+>2.按exp_name排序，而不是按时间排序；
+>
+>3.固定好每个exp_name的颜色；
+>
+>4.可以调节曲线的线宽，便于观察；
+>
+>5.保存图片到本地，便于远程ssh画图~
+
     
 ## 3. File tree and introduction:
 
