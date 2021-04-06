@@ -1,10 +1,15 @@
 """
+超强版强化学习画图脚本！
 相比于原始的plot.py文件，增加了如下的功能：
 1.可以直接在pycharm或者vscode执行，也可以用命令行传参；
 2.按exp_name排序，而不是按时间排序；
 3.固定好每个exp_name的颜色；
 4.可以调节曲线的线宽，便于观察；
 5.保存图片到本地，便于远程ssh画图~
+6.自动显示全屏
+7.图片自适应
+8.针对颜色不敏感的人群,可以在每条legend上注明性能值,和性能序号
+seaborn版本0.8.1
 """
 
 import seaborn as sns
@@ -25,7 +30,10 @@ units = dict()
 def plot_data(data, xaxis='Epoch', value="TestEpRet",
               condition="Condition1", smooth=1,
               linewidth=4,
+              rank=True,
+              performance=True,
               **kwargs):
+    performance_rank = {}
     if smooth > 1:
         """
         smooth data with moving window average.
@@ -39,13 +47,32 @@ def plot_data(data, xaxis='Epoch', value="TestEpRet",
             z = np.ones(len(x))
             smoothed_x = np.convolve(x, y, 'same') / np.convolve(z, y, 'same')
             datum[value] = smoothed_x
+            # add mean performance to performance_rank{dict}
+            print("rank-add:", datum[condition].values[0])
+            if datum[condition].values[0] not in performance_rank.keys():
+                performance_rank[datum[condition].values[0]] = np.mean(smoothed_x[-len(smoothed_x)//10:])
+            else:
+                performance_rank[datum[condition].values[0]] += np.mean(smoothed_x[-len(smoothed_x)//10:])
 
+    # value list 获取性能值排序序号
+    performance_list = []
+    for key, val in performance_rank.items():
+        print(key, val)
+        performance_list.append(val)
+    # 获取列表排序序号,一定要argsort2次~
+    performance_rank_list = np.argsort(np.argsort(-np.array(performance_list)))
+    print("performance_rank_list:", performance_rank_list)
+    # 修改data[condition]的名字
+
+    for index, datum in enumerate(data):
+        if rank:
+            datum[condition] = 'Rank-' + str(performance_rank_list[index]+1) + "-" + datum[condition]
+        if performance:
+            datum[condition] = 'P-' + str(np.round(performance_list[index], 3)) + "-" + datum[condition]
     if isinstance(data, list):
         data = pd.concat(data, ignore_index=True)
-    sns.set(style="darkgrid", font_scale=1.75,
-            )
-
-    # data按照lenged排序；
+    sns.set(style="darkgrid", font_scale=1.75, )
+    # # data按照lenged排序；
     data.sort_values(by='Condition1', axis=0)
 
     sns.tsplot(data=data,
@@ -166,8 +193,7 @@ def get_datasets(logdir, condition=None):
             exp_data.insert(len(exp_data.columns), 'Condition2', condition2)
             exp_data.insert(len(exp_data.columns), 'Performance', exp_data[performance])
             datasets.append(exp_data)
-    # 默认按照时间顺序获取文件夹数据
-
+    # # 默认按照时间顺序获取文件夹数据
     # print("-"*10, 'sorted by time', '-'*10)
     # for root, _, files in os.walk(logdir):
     #     if 'progress.txt' in files:
@@ -263,7 +289,10 @@ def make_plots(all_logdirs, legend=None,
                font_scale=1.5, smooth=1,
                linewidth=4,
                select=None, exclude=None,
-               estimator='mean'):
+               estimator='mean',
+               rank=True,
+               performance=True,
+               ):
     data = get_all_datasets(all_logdirs, legend, select, exclude)
     values = values if isinstance(values, list) else [values]
     condition = 'Condition2' if count else 'Condition1'
@@ -272,7 +301,12 @@ def make_plots(all_logdirs, legend=None,
         plt.figure()
         plot_data(data, xaxis=xaxis, value=value,
                   condition=condition, smooth=smooth, estimator=estimator,
-                  linewidth=linewidth)
+                  linewidth=linewidth, rank=rank, performance=performance)
+
+    # 默认最大化图片
+    manager = plt.get_current_fig_manager()
+    manager.window.showMaximized()
+
     plt.savefig(all_logdirs[0] + 'ep_reward.png',
                 bbox_inches='tight',
                 dpi=300,
@@ -283,37 +317,48 @@ def make_plots(all_logdirs, legend=None,
     except:
         pass
 
-    # plt.savefig(all_logdirs[0]+'ep_reward.png',
-    #             bbox_inches='tight')
-
 
 def main():
     import argparse
     parser = argparse.ArgumentParser()
     import sys
+    # 如果是命令行启动,调用下面的语句,必须要输入数据路径!
     if len(sys.argv) > 1:
         print("run in command")
         print("argv:", sys.argv)
         print('-' * 30)
         parser.add_argument('logdir', nargs='*')
     else:
+        # 如果是idle启动,则需要将路径加入到下面的语句!
         print("run in pycharm")
         print('-' * 30)
         parser.add_argument('--logdir', '-r', type=list,
                             default=[
-                                '/home/dongkun/spinup/DRLib/spinup_utils/HER_DRLib_rew_PP_fork_pos/2',
-                                # '/home/lyl/robot_code/DRLib/spinup_utils/HER_DRLib_rew_push_fork_exps2/',
+                                "/home/lyl/robot_code/DRLib/spinup_utils/HER_DRLib_rew_push_exps/2",
                             ])
     parser.add_argument('--legend', '-l', nargs='*')
-    parser.add_argument('--xaxis', '-x', default='TotalEnvInteracts')
-    parser.add_argument('--value', '-y', default='Performance', nargs='*')
-    parser.add_argument('--count', action='store_true')
+    parser.add_argument('--xaxis', '-x', default='TotalEnvInteracts',
+                        help='选择什么为横坐标,默认为TotalEnvInteracts')
+    parser.add_argument('--value', '-y', default='Performance', nargs='*',
+                        help='选择特定变量为性能指标,默认为AverageTestEpRet')
+    parser.add_argument('--count', action='store_true',
+                        help='是否显示每个随机种子,加--count为显示')
     # parser.add_argument('--count', default="False")
-    parser.add_argument('--smooth', '-s', type=int, default=20)
-    parser.add_argument('--linewidth', '-lw', type=float, default=4)
-    parser.add_argument('--select', nargs='*')
+    parser.add_argument('--smooth', '-s', type=int, default=20,
+                        help='滑动平均,20看起来会更平滑些')
+    parser.add_argument('--linewidth', '-lw', type=float, default=4,
+                        help='实验线宽,粗点容易分清')
+    parser.add_argument('--rank', type=bool, default=True,
+                        help='是否在legend上显示性能排序')
+    parser.add_argument('--performance', type=bool, default=True,
+                        help='是否在legend上显示性能值')
+
+    parser.add_argument('--select', nargs='*',
+                        help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
+                             '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
     # parser.add_argument('--select', default=['pos10'], )
-    parser.add_argument('--exclude', nargs='*')
+    parser.add_argument('--exclude', nargs='*',
+                        help='同select')
     parser.add_argument('--est', default='mean')
     args = parser.parse_args()
     print(args)
@@ -360,9 +405,12 @@ def main():
     make_plots(args.logdir, args.legend, args.xaxis, args.value, args.count,
                smooth=args.smooth, select=args.select, exclude=args.exclude,
                estimator=args.est,
-               linewidth=args.linewidth)
+               linewidth=args.linewidth,
+               rank=args.rank,
+               performance=args.performance)
 
 
 if __name__ == "__main__":
     main()
+
 
