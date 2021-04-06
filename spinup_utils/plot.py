@@ -1,5 +1,4 @@
 """
-超强版强化学习画图脚本！
 相比于原始的plot.py文件，增加了如下的功能：
 1.可以直接在pycharm或者vscode执行，也可以用命令行传参；
 2.按exp_name排序，而不是按时间排序；
@@ -33,7 +32,8 @@ def plot_data(data, xaxis='Epoch', value="TestEpRet",
               rank=True,
               performance=True,
               **kwargs):
-    performance_rank = {}
+    performance_rank_dict = {}
+    condition2_list = []
     if smooth > 1:
         """
         smooth data with moving window average.
@@ -43,32 +43,46 @@ def plot_data(data, xaxis='Epoch', value="TestEpRet",
         """
         y = np.ones(smooth)
         for datum in data:
+            condition2_list.append(datum["Condition2"].values[0])
             x = np.asarray(datum[value])
             z = np.ones(len(x))
             smoothed_x = np.convolve(x, y, 'same') / np.convolve(z, y, 'same')
             datum[value] = smoothed_x
             # add mean performance to performance_rank{dict}
             print("rank-add:", datum[condition].values[0])
-            if datum[condition].values[0] not in performance_rank.keys():
-                performance_rank[datum[condition].values[0]] = np.mean(smoothed_x[-len(smoothed_x)//10:])
+            if datum[condition].values[0] not in performance_rank_dict.keys():
+                performance_rank_dict[datum[condition].values[0]] = np.mean(smoothed_x[-len(smoothed_x)//10:])
             else:
-                performance_rank[datum[condition].values[0]] += np.mean(smoothed_x[-len(smoothed_x)//10:])
+                performance_rank_dict[datum[condition].values[0]] += np.mean(smoothed_x[-len(smoothed_x)//10:])
+    # concern the multi-seeds:
+    for key in performance_rank_dict.keys():
+        seed_num = sum([1 for cond in condition2_list if key in cond])
+        performance_rank_dict[key] /= seed_num
 
     # value list 获取性能值排序序号
     performance_list = []
-    for key, val in performance_rank.items():
+    performance_rank_keys = []
+    for key, val in performance_rank_dict.items():
         print(key, val)
         performance_list.append(val)
+        performance_rank_keys.append(key)
+
     # 获取列表排序序号,一定要argsort2次~
     performance_rank_list = np.argsort(np.argsort(-np.array(performance_list)))
+    performance_rank_sort_dict = {performance_rank_keys[index]: performance_rank_list[index]
+                                  for index in range(len(performance_rank_list))}
     print("performance_rank_list:", performance_rank_list)
-    # 修改data[condition]的名字
 
+    # 修改data[condition]的名字
     for index, datum in enumerate(data):
-        if rank:
-            datum[condition] = 'Rank-' + str(performance_rank_list[index]+1) + "-" + datum[condition]
+        origin_key = datum[condition].values[0]
         if performance:
-            datum[condition] = 'P-' + str(np.round(performance_list[index], 3)) + "-" + datum[condition]
+            p = performance_rank_dict[origin_key]
+            datum[condition] = 'P-' + str(np.round(p, 3)) + "-" + datum[condition]
+        if rank:
+            rank_value = performance_rank_sort_dict[origin_key]
+            datum[condition] = 'Rank-' + str(rank_value) + "-" + datum[condition]
+
     if isinstance(data, list):
         data = pd.concat(data, ignore_index=True)
     sns.set(style="darkgrid", font_scale=1.75, )
@@ -305,7 +319,12 @@ def make_plots(all_logdirs, legend=None,
 
     # 默认最大化图片
     manager = plt.get_current_fig_manager()
-    manager.window.showMaximized()
+    try:
+        # matplotlib3.3.4 work
+        manager.resize(*manager.window.maxsize())
+    except:
+        # matplotlib3.2.1//2.2.3 work
+        manager.window.showMaximized()
 
     plt.savefig(all_logdirs[0] + 'ep_reward.png',
                 bbox_inches='tight',
@@ -334,7 +353,7 @@ def main():
         print('-' * 30)
         parser.add_argument('--logdir', '-r', type=list,
                             default=[
-                                "/home/lyl/robot_code/DRLib/spinup_utils/HER_DRLib_rew_push_exps/2",
+                                "/home/dongkun/spinup/DRLib/spinup_utils/HER_DRLib_rew_PP_fork_pos/2",
                             ])
     parser.add_argument('--legend', '-l', nargs='*')
     parser.add_argument('--xaxis', '-x', default='TotalEnvInteracts',
@@ -353,55 +372,15 @@ def main():
     parser.add_argument('--performance', type=bool, default=True,
                         help='是否在legend上显示性能值')
 
-    parser.add_argument('--select', nargs='*',
-                        help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
-                             '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
-    # parser.add_argument('--select', default=['pos10'], )
+    # parser.add_argument('--select', nargs='*',
+    #                     help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
+    #                          '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
+    parser.add_argument('--select', default=['Push', 'pos0'], )
     parser.add_argument('--exclude', nargs='*',
                         help='同select')
     parser.add_argument('--est', default='mean')
     args = parser.parse_args()
     print(args)
-    """
-    Args: 
-        logdir (strings): As many log directories (or prefixes to log 
-            directories, which the plotter will autocomplete internally) as 
-            you'd like to plot from.
-        legend (strings): Optional way to specify legend for the plot. The 
-            plotter legend will automatically use the ``exp_name`` from the
-            config.json file, unless you tell it otherwise through this flag.
-            This only works if you provide a name for each directory that
-            will get plotted. (Note: this may not be the same as the number
-            of logdir args you provide! Recall that the plotter looks for
-            autocompletes of the logdir args: there may be more than one 
-            match for a given logdir prefix, and you will need to provide a 
-            legend string for each one of those matches---unless you have 
-            removed some of them as candidates via selection or exclusion 
-            rules (below).)
-        xaxis (string): Pick what column from data is used for the x-axis.
-             Defaults to ``TotalEnvInteracts``.
-        value (strings): Pick what columns from data to graph on the y-axis. 
-            Submitting multiple values will produce multiple graphs. Defaults
-            to ``Performance``, which is not an actual output of any algorithm.
-            Instead, ``Performance`` refers to either ``AverageEpRet``, the 
-            correct performance measure for the on-policy algorithms, or
-            ``AverageTestEpRet``, the correct performance measure for the 
-            off-policy algorithms. The plotter will automatically figure out 
-            which of ``AverageEpRet`` or ``AverageTestEpRet`` to report for 
-            each separate logdir.
-        count: Optional flag. By default, the plotter shows y-values which
-            are averaged across all results that share an ``exp_name``, 
-            which is typically a set of identical experiments that only vary
-            in random seed. But if you'd like to see all of those curves 
-            separately, use the ``--count`` flag.
-        smooth (int): Smooth data by averaging it over a fixed window. This 
-            parameter says how wide the averaging window will be.
-        select (strings): Optional selection rule: the plotter will only show
-            curves from logdirs that contain all of these substrings.
-        exclude (strings): Optional exclusion rule: plotter will only show 
-            curves from logdirs that do not contain these substrings.
-    """
-
     make_plots(args.logdir, args.legend, args.xaxis, args.value, args.count,
                smooth=args.smooth, select=args.select, exclude=args.exclude,
                estimator=args.est,
