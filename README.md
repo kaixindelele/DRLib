@@ -109,7 +109,9 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 >
 >seaborn版本0.8.1
 
-
+<p float="middle">
+  <img src="https://img-blog.csdnimg.cn/20210406161815132.png" />
+</p>
 
     
 ## 3. File tree and introduction:
