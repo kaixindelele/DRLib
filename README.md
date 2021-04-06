@@ -87,6 +87,8 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 
 4. plot results:https://blog.csdn.net/hehedadaq/article/details/114044217
 
+>超强版强化学习画图脚本！
+
 >相比于原始的plot.py文件，增加了如下的功能
 >
 >1.可以直接在pycharm或者vscode执行，也可以用命令行传参；
@@ -98,6 +100,16 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 >4.可以调节曲线的线宽，便于观察；
 >
 >5.保存图片到本地，便于远程ssh画图~
+>
+>6.自动显示全屏
+>
+>7.图片自适应
+>
+>8.针对颜色不敏感的人群,可以在每条legend上注明性能值,和性能序号
+>
+>seaborn版本0.8.1
+
+
 
     
 ## 3. File tree and introduction:
