@@ -325,11 +325,27 @@ def make_plots(all_logdirs, legend=None,
     except:
         # matplotlib3.2.1//2.2.3 work
         manager.window.showMaximized()
+    fig = plt.gcf()
+    fig.set_size_inches((16, 9), forward=False)
 
-    plt.savefig(all_logdirs[0] + 'ep_reward.png',
+    select_str = ''
+    exclude_str = ''
+    print("select:", select)
+    print("select_str:", select_str)
+    if select is not None and type(select) is list:
+        for s_str in select:
+            select_str += s_str
+    if exclude is not None and type(exclude) is list:
+        for s_str in exclude:
+            exclude_str += s_str
+    print("select_str:", select_str)
+    fig.savefig(all_logdirs[0] + 'ep_reward_'+select_str+exclude_str+'.png',
                 bbox_inches='tight',
-                dpi=300,
-                )
+                dpi=300)
+    # plt.savefig(all_logdirs[0] + 'ep_reward.png',
+    #            bbox_inches='tight',
+    #            dpi=300,
+    #            )
     try:
         # 如果非远程，则显示图片
         plt.show()
