@@ -358,20 +358,27 @@ def main():
     parser = argparse.ArgumentParser()
     import sys
     # 如果是命令行启动,调用下面的语句,必须要输入数据路径!
-    if len(sys.argv) > 1:
-        print("run in command")
-        print("argv:", sys.argv)
-        print('-' * 30)
+    if len(sys.argv) > 1:        
+        print("run in command: \n argv:", sys.argv, '\n', '-' * 30)        
         parser.add_argument('logdir', nargs='*')
+        # other nargs
+        parser.add_argument('--legend', '-l', nargs='*')
+        parser.add_argument('--select', nargs='*',
+                            help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
+                                 '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
+        parser.add_argument('--exclude', nargs='*',
+                            help='同select')
     else:
         # 如果是idle启动,则需要将路径加入到下面的语句!
-        print("run in pycharm")
-        print('-' * 30)
+        print("run in pycharm\n", '-' * 30)        
         parser.add_argument('--logdir', '-r', type=list,
                             default=[
                                 "/home/dongkun/spinup/DRLib/spinup_utils/HER_DRLib_rew_PP_fork_pos/2",
                             ])
-    parser.add_argument('--legend', '-l', nargs='*')
+        # other nargs
+        parser.add_argument('--select', default=['Push', 'pos0'], )
+        parser.add_argument('--exclude', default=['Pick', 'nag-1'], )
+        
     parser.add_argument('--xaxis', '-x', default='TotalEnvInteracts',
                         help='选择什么为横坐标,默认为TotalEnvInteracts')
     parser.add_argument('--value', '-y', default='Performance', nargs='*',
@@ -387,18 +394,9 @@ def main():
                         help='是否在legend上显示性能排序')
     parser.add_argument('--performance', type=bool, default=True,
                         help='是否在legend上显示性能值')
-    if len(sys.argv) > 1:      
-        parser.add_argument('--select', nargs='*',
-                            help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
-                                 '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
-        parser.add_argument('--exclude', nargs='*',
-                          help='同select')
-    else:
-        parser.add_argument('--select', default=['Push', 'pos0'], )
-        parser.add_argument('--exclude', default=['Pick', 'nag-1'], )
     parser.add_argument('--est', default='mean')
     args = parser.parse_args()
-    print(args)
+    print("args:", args)
     make_plots(args.logdir, args.legend, args.xaxis, args.value, args.count,
                smooth=args.smooth, select=args.select, exclude=args.exclude,
                estimator=args.est,
