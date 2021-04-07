@@ -387,13 +387,15 @@ def main():
                         help='是否在legend上显示性能排序')
     parser.add_argument('--performance', type=bool, default=True,
                         help='是否在legend上显示性能值')
-
-    parser.add_argument('--select', nargs='*',
-                        help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
-                             '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
-    # parser.add_argument('--select', default=['Push', 'pos0'], )
-    parser.add_argument('--exclude', nargs='*',
-                        help='同select')
+    if len(sys.argv) > 1:      
+        parser.add_argument('--select', nargs='*',
+                            help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
+                                 '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
+        parser.add_argument('--exclude', nargs='*',
+                          help='同select')
+    else:
+        parser.add_argument('--select', default=['Push', 'pos0'], )
+        parser.add_argument('--exclude', default=['Pick', 'nag-1'], )
     parser.add_argument('--est', default='mean')
     args = parser.parse_args()
     print(args)
