@@ -361,8 +361,7 @@ def main():
     if len(sys.argv) > 1:        
         print("run in command: \n argv:", sys.argv, '\n', '-' * 30)        
         parser.add_argument('logdir', nargs='*')
-        # other nargs
-        parser.add_argument('--legend', '-l', nargs='*')
+        # other nargs        
         parser.add_argument('--select', nargs='*',
                             help='在当前路径下,选择特定关键词,不能是下一个文件夹,'
                                  '在idle中不能是字符串,在终端,不用加双引号,多个关键词可以用空格隔开')
@@ -376,9 +375,10 @@ def main():
                                 "/home/dongkun/spinup/DRLib/spinup_utils/HER_DRLib_rew_PP_fork_pos/2",
                             ])
         # other nargs
-        parser.add_argument('--select', default=['Push', 'pos0'], )
-        parser.add_argument('--exclude', default=['Pick', 'nag-1'], )
+        parser.add_argument('--select', default=[], )
+        parser.add_argument('--exclude', default=[], )
         
+    parser.add_argument('--legend', '-l', nargs='*')
     parser.add_argument('--xaxis', '-x', default='TotalEnvInteracts',
                         help='选择什么为横坐标,默认为TotalEnvInteracts')
     parser.add_argument('--value', '-y', default='Performance', nargs='*',
