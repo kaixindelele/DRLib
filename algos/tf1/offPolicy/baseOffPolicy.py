@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import copy
+import pickle
 
 from algos.tf1.offPolicy import core
 from algos.tf1.offPolicy.norm import StateNorm
