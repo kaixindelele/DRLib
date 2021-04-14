@@ -246,5 +246,18 @@ class OffPolicy:
         self.replay_buffer = pickle.load(open(path, 'rb'))
 
 
-if __name__ == '__main__':
-    pass
+if __name__ == '__main__':    
+    net = TD3()
+    logger_kwargs = {'output_dir':"logger/"}
+    try:
+        import os
+        os.mkdir(logger_kwargs['output_dir'])
+    except:
+        pass
+    # save buffer to local as .pkl
+    path = logger_kwargs["output_dir"]+'/dense_'+str(args.seed)+'replay.pkl'
+    net.save_replay_buffer(path)
+    
+    # load buffer from local .pkl 
+    path = logger_kwargs["output_dir"]+'/dense_'+str(args.seed)+'replay.pkl'    
+    net.load_replay_buffer(path)
