@@ -339,6 +339,11 @@ def make_plots(all_logdirs, legend=None,
         for s_str in exclude:
             exclude_str += s_str
     print("select_str:", select_str)
+    try:
+        # 如果非远程，则显示图片
+        plt.show()
+    except:
+        pass
     fig.savefig(all_logdirs[0] + 'ep_reward_'+select_str+exclude_str+'.png',
                 bbox_inches='tight',
                 dpi=300)
@@ -346,11 +351,7 @@ def make_plots(all_logdirs, legend=None,
     #            bbox_inches='tight',
     #            dpi=300,
     #            )
-    try:
-        # 如果非远程，则显示图片
-        plt.show()
-    except:
-        pass
+
 
 
 def main():
