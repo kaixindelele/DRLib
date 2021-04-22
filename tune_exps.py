@@ -15,7 +15,7 @@ import zlib
 
 # 导入待执行的函数
 from spinup_utils.mpi_tools import mpi_fork
-from spinup_utils.tune_func import func
+from tune_func import func
 
 
 DIV_LINE_WIDTH = 80
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     for i in range(0, len(params_dict_list), cpu_num):
         cur_params_dict_list = params_dict_list[i:i+cpu_num]
         print("cur_params_dict_list:", cur_params_dict_list)
-        call_experiment(thunk=launch,
+        call_experiment(thunk=func,
                         thunk_params_dict_list=cur_params_dict_list,
                         args=args,
                         cpu_num=cpu_num)
