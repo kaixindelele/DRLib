@@ -369,7 +369,7 @@ def main():
         parser.add_argument('--exclude', nargs='*',
                             help='同select')
     else:
-        # 如果是idle启动,则需要将路径加入到下面的语句!
+        # 如果是idle启动,用于debug,则需要将路径加入到下面的语句!
         print("run in pycharm\n", '-' * 30)        
         parser.add_argument('--logdir', '-r', type=list,
                             default=[
