@@ -1,0 +1,16 @@
+{
+    "argparse":	"argparse",
+    "args":	null,
+    "b_lr":	0.001,
+    "base_lr":	0.001,
+    "env_str":	"FetchReach-v1",
+    "exp_name":	"gym_clean_buffer_reach_d2s_dense_n2b2",
+    "logger":	null,
+    "logger_kwargs":	{
+        "exp_name":	"gym_clean_buffer_reach_d2s_dense_n2b2",
+        "output_dir":	"../Gym_reach_D2S_clean_buffer/2020-10-02_gym_clean_buffer_reach_d2s_dense_n2b2/2020-10-02_12-18-43-gym_clean_buffer_reach_d2s_dense_n2b2_s7515"
+    },
+    "noise_value":	0.1,
+    "parser":	null,
+    "random_seed":	7515
+}
