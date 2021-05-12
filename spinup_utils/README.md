@@ -23,7 +23,13 @@
 8. 针对颜色不敏感的人群,可以在每条legend上注明性能值,和性能序号
 9. **新功能**，在plot_demo_files里面添加了同一个实验、四组不同随机种子的数据，便于大家测试和调参。
 
+例程图：
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512223911337.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlaGVkYWRhcQ==,size_16,color_FFFFFF,t_70)
+
+
 注意：**seaborn版本0.8.1**
+
 
 ## 最终画图效果：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021040616224411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlaGVkYWRhcQ==,size_16,color_FFFFFF,t_70)
