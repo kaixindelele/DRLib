@@ -373,7 +373,10 @@ def main():
         print("run in pycharm\n", '-' * 30)        
         parser.add_argument('--logdir', '-r', type=list,
                             default=[
-                                "/home/dongkun/spinup/DRLib/spinup_utils/HER_DRLib_rew_PP_fork_pos/2",
+                                # windows路径示例:
+                                r"plot_demo_files\2020",
+                                # Ubuntu路径示例：
+                                # "plot_demo_files/2020",
                             ])
         # other nargs
         parser.add_argument('--select', default=[], )
