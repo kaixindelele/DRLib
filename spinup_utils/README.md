@@ -43,6 +43,16 @@
 ## 代码链接，有详细注释：
 [https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/plot.py](https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/plot.py)
 
+## matplotlib均值和方差图-多组成功率为例-代码
+
+![多组实际效果](https://img-blog.csdnimg.cn/20210221004735541.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlaGVkYWRhcQ==,size_16,color_FFFFFF,t_70#pic_center)
+
+[多组成功率代码](https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/plot_success_group.py)
+
+![单组成功率柱状图](https://img-blog.csdnimg.cn/20210408120845755.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlaGVkYWRhcQ==,size_16,color_FFFFFF,t_70)
+
+[单组成功率代码](https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/plot_success.py)
+
 ## 关于强化学习绘图的其他优质教程：
 尤其是关于tsplot和lineplot函数的使用：
 以及设置画一些和spinningup格式不一样的图，可以参考下面的教程和代码。
