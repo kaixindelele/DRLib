@@ -40,6 +40,9 @@
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021040616224411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlaGVkYWRhcQ==,size_16,color_FFFFFF,t_70)
 如果大家还有什么新的功能，我也可以想办法加上去~
 
+## 图例legend位置调整：
+
+
 ## 代码链接，有详细注释：
 [https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/plot.py](https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/plot.py)
 
