@@ -40,7 +40,20 @@
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021040616224411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlaGVkYWRhcQ==,size_16,color_FFFFFF,t_70)
 如果大家还有什么新的功能，我也可以想办法加上去~
 
-## 图例legend位置调整：
+## 多个子图绘制和图例legend位置调整：
+如下图，如果是多个子图的绘制，需要利用group_plot.py脚本：
+[https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/group_plot.py](https://github.com/kaixindelele/DRLib/blob/main/spinup_utils/group_plot.py)
+
+这里的legend位置要调整到最底层，不能简单的用默认的best设置，需要替换成：
+
+
+```python
+plt.legend(bbox_to_anchor=(x, y))
+```
+
+这里的y为负数，代表在子图的下面~
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210611093742566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlaGVkYWRhcQ==,size_16,color_FFFFFF,t_70)
 
 
 ## 代码链接，有详细注释：
