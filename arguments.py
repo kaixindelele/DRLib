@@ -9,24 +9,24 @@ Here are the param for the training
 def get_args():
     parser = argparse.ArgumentParser()
     # the environment setting
-    # parser.add_argument('--env_name', type=str, default='FetchSlide-v1', help='the environment name')
-    parser.add_argument('--env_name', type=str, default='FetchPush-v1', help='the environment name')
+    parser.add_argument('--env_name', type=str, default='FetchSlide-v1', help='the environment name')
+    # parser.add_argument('--env_name', type=str, default='FetchPush-v1', help='the environment name')
     # parser.add_argument('--env_name', type=str, default='FetchPickAndPlace-v1', help='the environment name')
     # parser.add_argument('--env_name', type=str, default='HalfCheetah-v2', help='the environment name')
 
     # parser.add_argument('--RL_name', type=str, default='SACTorch', help='the RL name')
     # parser.add_argument('--RL_name', type=str, default='DDPGTorch', help='the RL name')
-    # parser.add_argument('--RL_name', type=str, default='TD3Torch', help='the RL name')
-    parser.add_argument('--RL_name', type=str, default='SAC', help='the RL name')
+    parser.add_argument('--RL_name', type=str, default='TD3', help='the RL name')
+    # parser.add_argument('--RL_name', type=str, default='DDPG', help='the RL name')
 
-    parser.add_argument('--n_epochs', type=int, default=1000, help='the number of epochs to train the agent')
+    parser.add_argument('--n_epochs', type=int, default=500, help='the number of epochs to train the agent')
     parser.add_argument('--n_cycles', type=int, default=50, help='the times to collect samples per epoch')
     parser.add_argument('--n_steps', type=int, default=50)
 
     parser.add_argument('--n_batches', type=int, default=40, help='the times to update the network')
     parser.add_argument('--save_interval', type=int, default=5, help='the interval that save the trajectory')
     parser.add_argument('--seed', type=int, default=123, help='random seed')
-    parser.add_argument('--num_workers', type=int, default=1, help='the number of cpus to collect samples')
+    parser.add_argument('--cpu', type=int, default=4, help='the number of cpus to collect samples')
     parser.add_argument('--replay_strategy', type=str, default='future', help='the HER strategy')
     parser.add_argument('--clip_return', type=float, default=50, help='if clip the returns')
     parser.add_argument('--save_dir', type=str, default='saved_models/', help='the path to save the models')
@@ -58,7 +58,7 @@ def get_args():
                         default=False, help='is PER True or False')
 
     parser.add_argument('--exp_name', type=str,
-                        default='HER')
+                        default='HER_mpi19_random')
     parser.add_argument('--output_dir', type=str,
                         default='HER_DRLib_exps')
 
