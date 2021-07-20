@@ -77,6 +77,9 @@ class TD3(OffPolicy):
         min_q_targ = tf.minimum(q1_targ, q2_targ)
         backup = tf.stop_gradient(self.r_ph + gamma * (1 - self.d_ph) * min_q_targ)
         # backup = self.r_ph + gamma * min_q_targ
+        # 当用于HER的时候，奖励值为{-1, 0}时，可以用下面的设置，如果奖励函数变了，记得修改
+        clip_return = 1 / (1 - gamma)
+        backup = tf.clip_by_value(backup, -clip_return, 0)
 
         # TD3 losses
         self.pi_loss = -tf.reduce_mean(self.q1_pi)
