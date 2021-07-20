@@ -66,6 +66,7 @@ class DDPG(OffPolicy):
         # Bellman backup for Q function
         backup = tf.stop_gradient(self.r_ph + gamma * (1 - self.d_ph) * q_pi_targ)
         # clip return
+        # 当用于HER的时候，奖励值为{-1, 0}时，可以用下面的设置，如果奖励函数变了，记得修改
         clip_return = 1 / (1 - gamma)
         backup = tf.clip_by_value(backup, -clip_return, 0)
 
