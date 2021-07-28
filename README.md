@@ -10,9 +10,21 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 
 3. **添加了HER和PER功能**，非常适合做机器人相关任务的同学们；
 
-4. 实现了**最简单的并行自动调参**（ExperimentGrid）和多进程（MPI_fork-还没有实现）部分，适合新手在pycharm中debug，原版的直接调试经常会报错~
+4. 实现了**最简单的并行自动调参**（ExperimentGrid）和多进程（MPI_fork-实现了，没有完全实现）部分，适合新手在pycharm中debug，原版的直接调试经常会报错~
 
 教程链接：[【Spinning Up】四、python同时启动多个不同参数脚本](https://blog.csdn.net/hehedadaq/article/details/114803650)
+
+多进程教程：没写~
+```
+我终于把tf版本-基于mpi的多进程调好了~
+
+torch版本的没有测试完毕，有报错！
+
+如果大家的CPU核心足够多的情况下，试试mpi多进程，性能会提升比较大的。
+
+目前测试的结果是，tf-DDPG的性能最佳，TD3的结果竟然会比ddpg的差，简直了~
+
+```
 
 5. 最后，全网最详细的环境配置教程！**亲测两个小时内，从零配置完全套环境！**
 
