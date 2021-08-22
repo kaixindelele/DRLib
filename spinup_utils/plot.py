@@ -373,7 +373,7 @@ def main():
         print("run in pycharm\n", '-' * 30)        
         parser.add_argument('--logdir', '-r', type=list,
                             default=[
-                                # windows路径示例:
+                                # windows路径示例:这个2020的意思是，要保留子文件夹的一些前缀，比如子文件夹的名叫"2020-reach-*"，不能只是"plot_demo_files\"
                                 r"plot_demo_files\2020",
                                 # Ubuntu路径示例：
                                 # "plot_demo_files/2020",
