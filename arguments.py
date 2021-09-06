@@ -9,11 +9,13 @@ Here are the param for the training
 def get_args():
     parser = argparse.ArgumentParser()
     # the environment setting
+    # 如果环境任务是非goal-based，需要将下面的her参数设置为False！
     parser.add_argument('--env_name', type=str, default='FetchSlide-v1', help='the environment name')
     # parser.add_argument('--env_name', type=str, default='FetchPush-v1', help='the environment name')
     # parser.add_argument('--env_name', type=str, default='FetchPickAndPlace-v1', help='the environment name')
     # parser.add_argument('--env_name', type=str, default='HalfCheetah-v2', help='the environment name')
-
+    
+    # 如果你选用的是Torch版本的训练demo，那么这里也需要提前选择好TD3Torch
     # parser.add_argument('--RL_name', type=str, default='SACTorch', help='the RL name')
     # parser.add_argument('--RL_name', type=str, default='DDPGTorch', help='the RL name')
     parser.add_argument('--RL_name', type=str, default='TD3', help='the RL name')
