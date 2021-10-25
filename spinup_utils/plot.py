@@ -126,12 +126,27 @@ def plot_data(data, xaxis='Epoch', value="TestEpRet",
             比如bbox_to_anchor=(1.4,0.8),这个一般配合着ax.get_position(),
             set_position([box.x0, box.y0, box.width*0.8 , box.height])使用
     """
-    plt.legend(loc='upper center',
+    # 对图例legend也做一个排序，这样看起来更直观~
+    handles, labels = plt.gca().get_legend_handles_labels()
+    sorted_handles = []
+    sorted_labels = []
+    for index in range(len(handles)):
+        order_index = list(performance_rank_list).index(index)
+        sorted_handles.append(handles[order_index])
+        sorted_labels.append(labels[order_index])
+    plt.legend(sorted_handles, sorted_labels, loc='upper center', labelspacing=0.25,
                ncol=1,
                handlelength=6,
                mode="expand",
                borderaxespad=0.,
                )
+
+#     plt.legend(loc='upper center',
+#                ncol=1,
+#                handlelength=6,
+#                mode="expand",
+#                borderaxespad=0.,
+#                )
     """
     For the version of the legend used in the Spinning Up benchmarking page, 
     swap L38 with:
