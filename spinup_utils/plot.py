@@ -207,9 +207,13 @@ def get_datasets(logdir, condition=None):
                 units[condition1] = 0
             unit = units[condition1]
             units[condition1] += 1
-
+            # x轴截断值，默认为None，如果设置的为具体值，则直接统一截断。需要根据当前的x轴坐标手动添加，比如steps，1e6，epochs数量级是500。
+            # 以epoch=300截断为例，直接修改clip_xaxis=300即可
+            clip_xaxis = None
             try:
                 exp_data = pd.read_table(os.path.join(root, 'progress.txt'))
+                if clip_xaxis is not None:
+                    exp_data = exp_data[:clip_xaxis]
                 line_num = len(exp_data)
                 print('line num:{}, read from {}'.format(line_num,
                                                          os.path.join(root, 'progress.txt')))
