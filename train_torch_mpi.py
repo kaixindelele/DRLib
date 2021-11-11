@@ -127,7 +127,7 @@ def trainer(net, env, args):
 
         logger.log_tabular('TestSuccess', average_only=True)
 
-        logger.log_tabular('TotalEnvInteracts', (i * args.n_epochs * args.n_cycles + c) * args.n_cycles + j)
+        logger.log_tabular('TotalEnvInteracts', i * args.n_cycles * args.n_steps + c * args.n_steps + j + 1)
         logger.log_tabular('TotalTime', time.time() - start_time)
         logger.dump_tabular()
 
