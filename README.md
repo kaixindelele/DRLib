@@ -51,6 +51,15 @@ torch版本的没有测试完毕，有报错！
     conda install mpi4py
     ```
     
+    或者直接看下面的链接：
+    [ubuntu-windows-install-mpi4py-亲测好使！](https://blog.csdn.net/hehedadaq/article/details/109125425)
+    
+    
+    ```bash
+    conda install seaborn==0.8.1 scipy -y
+    ```
+    
+    
 4. Install tensorflow-gpu=1.14.0
     ```bash 
     conda install tensorflow-gpu==1.14.0 # if you have a CUDA-compatible gpu and proper drivers
