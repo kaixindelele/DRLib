@@ -127,6 +127,18 @@ class SACTorch(OffPolicy):
             loss_info['abs_errors'] = abs_errors.detach().cpu().numpy()
             loss_info['tree_idx'] = tree_idx
         return loss_q, loss_info
+    
+    def get_action(self, s, noise_scale=0):
+        if self.norm is not None:
+            s = self.norm.normalize(v=s)
+        if not noise_scale:
+            noise_scale = self.action_noise
+        s_cuda = torch.as_tensor(s, dtype=torch.float32, device=self.device)
+        # 修复了sac的获取action的bug，之前测试时，用的仍然时sac自身的采样，并没有采取mean的动作。
+        deterministic = True if noise_scale == 0 else False
+        a = self.ac.act(s_cuda, deterministic=deterministic)
+        a += noise_scale * np.random.randn(self.act_dim)
+        return np.clip(a, -self.a_bound, self.a_bound)
 
     def learn(self, batch_size=100,
               actor_lr_input=0.001,
