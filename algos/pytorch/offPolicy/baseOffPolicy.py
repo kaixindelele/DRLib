@@ -225,7 +225,7 @@ class OffPolicy:
         torch.save(self.ac.state_dict(), act_save_path)
         print("save model to:", save_path)
         
-        def save_replay_buffer(self, path):
+    def save_replay_buffer(self, path):
         """
         Save the replay buffer as a pickle file.
         path = 'dense_replay.pkl'
