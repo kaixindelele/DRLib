@@ -78,7 +78,7 @@ def trainer(net, env, args):
                     env.render()
 
                 # 防止gym中的最大step会返回done=True
-                done = False if i == args.n_steps - 1 else done
+                done = False if j == args.n_steps - 1 else done
 
                 if not args.her:
                     net.store_transition((s, a, r, s_, done))
