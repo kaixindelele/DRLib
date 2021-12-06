@@ -70,7 +70,7 @@ def trainer(net, env, args):
                 # visualization
                 if args.render and i % 3 == 0 and c % 20 == 0:
                     env.render()
-                done = False if i == args.n_steps - 1 else done
+                done = False if j == args.n_steps - 1 else done
                 if not args.her:
                     net.store_transition((s, a, r, s_, done))
 
