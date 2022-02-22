@@ -75,8 +75,8 @@ class OffPolicy:
     def get_action(self, s, noise_scale=0):
         if self.norm is not None:
             s = self.norm.normalize(v=s)
-        if not noise_scale:
-            noise_scale = self.action_noise
+#         if not noise_scale:
+#             noise_scale = self.action_noise
         s_cuda = torch.as_tensor(s, dtype=torch.float32, device=self.device)
         a = self.ac.act(s_cuda)
         a += noise_scale * np.random.randn(self.act_dim)
