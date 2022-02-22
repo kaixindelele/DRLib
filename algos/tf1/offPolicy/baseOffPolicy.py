@@ -81,8 +81,8 @@ class OffPolicy:
     def get_action(self, s, noise_scale=0):
         if self.norm is not None:
             s = self.norm.normalize(v=s)
-        if not noise_scale:
-            noise_scale = self.action_noise
+#         if not noise_scale:
+#             noise_scale = self.action_noise
         a = self.sess.run(self.pi, feed_dict={self.x_ph: s.reshape(1, -1)})[0]
         a += noise_scale * np.random.randn(self.act_dim)
         return np.clip(a, -self.a_bound, self.a_bound)
