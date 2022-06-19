@@ -112,20 +112,29 @@ class OffPolicy:
                 pass
 
             self.store_transition(transition=(obs_arr, action, reward, next_obs_arr, done))
-            sampled_goals = self._sample_achieved_goals(episode_trans, transition_idx,
-                                                        n_sampled_goal=self.n_sampled_goal)
+            # HER 操作！
+            ag_indexes = self.get_ag_indexes(episode_transitions=episode_trans,
+                                             transition_idx=transition_idx,
+                                             n_sampled_goal=self.n_sampled_goal)
             # For each sampled goals, store a new transition
-            for goal in sampled_goals:
+            for ag_index in ag_indexes:
                 # Copy transition to avoid modifying the original one
                 # 默认obs是字典格式
                 obs, action, reward, next_obs, done, info = copy.deepcopy(transition)
-                obs['desired_goal'] = goal
-                next_obs['desired_goal'] = goal
+                label_key = 'desired_goal'
+                relabel_key = 'achieved_goal'
+                obs[label_key] = self.get_ag(ag_index=ag_index,
+                                             episode_transitions=episode_trans, key=relabel_key)
+                next_obs[label_key] = self.get_ag(ag_index=ag_index,
+                                                  episode_transitions=episode_trans, key=relabel_key)
                 # Update the reward according to the new desired goal
                 reward = reward_func(next_obs['achieved_goal'],
-                                     goal, info)
+                                     obs[label_key], info)
                 # Can we use achieved_goal == desired_goal?
-                done = False
+                if ag_index == transition_idx + 1:
+                    done = True
+                else:
+                    done = False
                 # Transform back to ndarrays
                 # map(func, (param1, param2))
                 obs_arr, next_obs_arr = map(self.convert_dict_to_array,
@@ -138,7 +147,7 @@ class OffPolicy:
                 # Add artificial transition to the replay buffer
                 self.store_transition(transition=(obs_arr, action, reward, next_obs_arr, done))
 
-    def _sample_achieved_goal(self, episode_transitions, transition_idx):
+    def _sample_achieved_goal(self, episode_transitions, transition_idx, key="achieved_goal"):
         """
         Sample an achieved goal according to the sampling strategy.
         :param episode_transitions: ([tuple]) a list of all the transitions in the current episode
@@ -155,10 +164,10 @@ class OffPolicy:
         else:
             raise ValueError("Invalid goal selection strategy,"
                              )
-        ag = selected_transition[0]['achieved_goal']
+        ag = selected_transition[0][key]
         return ag
 
-    def _sample_achieved_goals(self, episode_transitions, transition_idx, n_sampled_goal=4):
+    def _sample_achieved_goals(self, episode_transitions, transition_idx, n_sampled_goal=4, key="achieved_goal"):
         """
         Sample a batch of achieved goals according to the sampling strategy.
         :param episode_transitions: ([tuple]) list of the transitions in the current episode
@@ -167,9 +176,22 @@ class OffPolicy:
         返回k个新目标元组
         """
         return [
-            self._sample_achieved_goal(episode_transitions, transition_idx)
+            self._sample_achieved_goal(episode_transitions, transition_idx, key=key)
             for _ in range(n_sampled_goal)
         ]
+
+    def get_ag_indexes(self, episode_transitions, transition_idx, n_sampled_goal=4):
+        ag_indexes = [self._sample_achieved_goal_index(episode_transitions, transition_idx)
+                      for _ in range(n_sampled_goal)]
+        return ag_indexes
+
+    def get_ag(self, ag_index, episode_transitions, key='achieved_goal'):
+        ag = episode_transitions[ag_index][0][key]
+        return ag
+
+    def _sample_achieved_goal_index(self, episode_transitions, transition_idx):
+        selected_idx = np.random.choice(np.arange(transition_idx + 1, len(episode_transitions)))
+        return selected_idx
 
     def convert_dict_to_array(self, obs_dict,
                               exclude_key=['achieved_goal']):
