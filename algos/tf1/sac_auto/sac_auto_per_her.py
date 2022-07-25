@@ -144,17 +144,16 @@ class SAC_AUTO(OffPolicy):
             self.sess = tf.Session()
         self.sess.run(tf.global_variables_initializer())
         self.sess.run(target_init)
-        
+
     def get_action(self, s, noise_scale=0):
         if self.norm is not None:
             s = self.norm.normalize(v=s)
         if not noise_scale:
-            noise_scale = self.action_noise
-            
-        act_op = self.mu if noise_scale == 0 else self.pi
-        a = self.sess.run(act_op, feed_dict={x_ph: o.reshape(1, -1)})[0]
-        # a = self.sess.run(self.pi, feed_dict={self.x_ph: s.reshape(1, -1)})[0]
-        a += noise_scale * np.random.randn(self.act_dim)
+            act_op = self.mu
+        else:
+            act_op = self.pi
+        a = self.sess.run(act_op,
+                          feed_dict={self.x_ph: s.reshape(1, -1)})[0]
         return np.clip(a, -self.a_bound, self.a_bound)
 
     def learn(self, batch_size=100,
@@ -204,14 +203,3 @@ class SAC_AUTO(OffPolicy):
                                  feed_dict)
             self.learn_step += 1
             return outs
-
-    def get_action(self, s, noise_scale=0):
-        if self.norm is not None:
-            s = self.norm.normalize(v=s)
-        if not noise_scale:
-            act_op = self.mu
-        else:
-            act_op = self.pi
-        a = self.sess.run(act_op,
-                          feed_dict={self.x_ph: s.reshape(1, -1)})[0]
-        return np.clip(a, -self.a_bound, self.a_bound)

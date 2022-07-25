@@ -114,6 +114,7 @@ class SACTorch(OffPolicy):
             q2_pi_targ = self.ac_targ.q2(o2, a2)
             q_pi_targ = torch.min(q1_pi_targ, q2_pi_targ)
             backup = r + self.gamma * (1 - d) * (q_pi_targ - self.alpha * logp_a2)
+            backup = torch.clamp(backup, -50.0, 0.0)
 
         # MSE loss against Bellman backup
         loss_q1 = ((q1 - backup)**2).mean()
@@ -131,8 +132,6 @@ class SACTorch(OffPolicy):
     def get_action(self, s, noise_scale=0):
         if self.norm is not None:
             s = self.norm.normalize(v=s)
-        if not noise_scale:
-            noise_scale = self.action_noise
         s_cuda = torch.as_tensor(s, dtype=torch.float32, device=self.device)
         # 修复了sac的获取action的bug，之前测试时，用的仍然时sac自身的采样，并没有采取mean的动作。
         deterministic = True if noise_scale == 0 else False
