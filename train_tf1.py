@@ -51,8 +51,6 @@ def trainer(net, env, args):
             success = []
             for j in range(args.n_steps):
                 a = net.get_action(s, noise_scale=args.noise_ps)
-                # a = net.get_action(s)
-                # a = noise.add_noise(a)
 
                 if np.random.random() < args.random_eps:
                     a = np.random.uniform(low=-net.a_bound,
@@ -81,7 +79,8 @@ def trainer(net, env, args):
                 real_ep_reward += r
             if args.her:
                 net.save_episode(episode_trans=episode_trans,
-                                 reward_func=env.compute_reward)
+                                 reward_func=env.compute_reward,
+                                 obs2state=obs2state)
             logger.store(EpRet=ep_reward)
             logger.store(EpRealRet=real_ep_reward)
 

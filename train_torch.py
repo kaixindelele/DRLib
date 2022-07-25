@@ -85,7 +85,8 @@ def trainer(net, env, args):
                 real_ep_reward += r
             if args.her:
                 net.save_episode(episode_trans=episode_trans,
-                                 reward_func=env.compute_reward)
+                                 reward_func=env.compute_reward,
+                                 obs2state=obs2state)
             logger.store(EpRet=ep_reward)
             logger.store(EpRealRet=real_ep_reward)
 

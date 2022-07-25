@@ -105,6 +105,7 @@ class DDPGTorch(OffPolicy):
             q_pi_targ = self.ac_targ.q(o2, a2)
 
             backup = r + self.gamma * (1 - d) * q_pi_targ
+            backup = torch.clamp(backup, -50.0, 0.0)
 
         # MSE loss against Bellman backup
         loss_q = ((q - backup) ** 2).mean()
