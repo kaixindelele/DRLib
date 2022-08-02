@@ -1,0 +1,11 @@
+{
+    "args":	null,
+    "env":	null,
+    "exp_name":	"HER_mpi1_random_TD3_FetchSlide-v1",
+    "logger":	null,
+    "logger_kwargs":	{
+        "exp_name":	"HER_mpi1_random_TD3_FetchSlide-v1",
+        "output_dir":	"HER_DRLib_exps/2022-07-29_HER_mpi1_random_TD3_FetchSlide-v1/2022-07-29_12-25-42-HER_mpi1_random_TD3_FetchSlide-v1_s300"
+    },
+    "net":	null
+}

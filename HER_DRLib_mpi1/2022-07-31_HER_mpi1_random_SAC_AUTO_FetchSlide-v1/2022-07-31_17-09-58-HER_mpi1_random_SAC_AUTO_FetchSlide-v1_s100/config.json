@@ -1,0 +1,11 @@
+{
+    "args":	null,
+    "env":	null,
+    "exp_name":	"HER_mpi1_random_SAC_AUTO_FetchSlide-v1",
+    "logger":	null,
+    "logger_kwargs":	{
+        "exp_name":	"HER_mpi1_random_SAC_AUTO_FetchSlide-v1",
+        "output_dir":	"HER_DRLib_exps/2022-07-31_HER_mpi1_random_SAC_AUTO_FetchSlide-v1/2022-07-31_17-09-58-HER_mpi1_random_SAC_AUTO_FetchSlide-v1_s100"
+    },
+    "net":	null
+}

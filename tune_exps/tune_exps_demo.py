@@ -15,8 +15,8 @@ import zlib
 
 # 导入待执行的函数
 from spinup_utils.mpi_tools import mpi_fork
-from tune_func import func
-
+from tune_exps.tune_func import func
+from tune_exps.tune_arguments import get_args
 
 DIV_LINE_WIDTH = 80
 
@@ -60,8 +60,9 @@ def call_experiment(thunk, thunk_params_dict_list, args, cpu_num, **kwargs):
         raise
 
 
-if __name__ == '__main__':    
-    cpu_num = 2
+if __name__ == '__main__':
+    args = get_args()
+    cpu_num = 10
     params_dict = {
         'lr': [2, 3, 4],
         "batch": [10, 20, 30],

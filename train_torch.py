@@ -1,7 +1,7 @@
 import numpy as np
 import gym
 import os, sys
-from arguments import get_args
+from torch_arguments import get_args
 import torch
 from mpi4py import MPI
 from subprocess import CalledProcessError

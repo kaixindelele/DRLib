@@ -1,7 +1,7 @@
 import numpy as np
 import gym
 import os, sys
-from arguments import get_args
+from torch_arguments import get_args
 import torch
 from mpi4py import MPI
 from subprocess import CalledProcessError
@@ -90,7 +90,8 @@ def trainer(net, env, args):
                 real_ep_reward += r
             if args.her:
                 net.save_episode(episode_trans=episode_trans,
-                                 reward_func=env.compute_reward)
+                                 reward_func=env.compute_reward,
+                                 obs2state=obs2state)
             logger.store(EpRet=ep_reward)
             logger.store(EpRealRet=real_ep_reward)
 
@@ -167,7 +168,7 @@ def launch(net, args):
         有点类似于指定GPU-ID后，cuda会重新排序。        
     """
 
-    device = torch.device("cuda:"+str(args.gpu_id) if torch.cuda.is_available() and args.gpu_id != -1 else 'cpu')
+    device = torch.device("cuda:"+str(0) if torch.cuda.is_available() and args.gpu_id != -1 else 'cpu')
     print("gpu_id:", args.gpu_id,
           "device:", device)
 
@@ -197,6 +198,7 @@ if __name__ == '__main__':
     
     # get the params
     args = get_args()
+    os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu_id)
     mpi_fork(args.cpu)
     from algos.tf1.td3_sp.TD3_per_her import TD3
     from algos.tf1.ddpg_sp.DDPG_per_her import DDPG

@@ -1,0 +1,11 @@
+{
+    "args":	null,
+    "env":	null,
+    "exp_name":	"HER_mpi1_random_TD3Torch_FetchPickAndPlace-v1",
+    "logger":	null,
+    "logger_kwargs":	{
+        "exp_name":	"HER_mpi1_random_TD3Torch_FetchPickAndPlace-v1",
+        "output_dir":	"HER_DRLib_exps/2022-07-29_HER_mpi1_random_TD3Torch_FetchPickAndPlace-v1/2022-07-29_12-22-08-HER_mpi1_random_TD3Torch_FetchPickAndPlace-v1_s123"
+    },
+    "net":	null
+}

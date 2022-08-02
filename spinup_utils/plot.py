@@ -136,19 +136,13 @@ def plot_data(data, xaxis='Epoch', value="TestEpRet",
         order_index = list(performance_rank_list).index(index)
         sorted_handles.append(handles[order_index])
         sorted_labels.append(labels[order_index])
-    plt.legend(sorted_handles, sorted_labels, loc='upper center', labelspacing=0.25,
+    plt.legend(sorted_handles, sorted_labels, loc='upper center', labelspacing=0.2,
                ncol=1,
-               handlelength=6,
+               handlelength=3,
                mode="expand",
                borderaxespad=0.,
                )
 
-#     plt.legend(loc='upper center',
-#                ncol=1,
-#                handlelength=6,
-#                mode="expand",
-#                borderaxespad=0.,
-#                )
     """
     For the version of the legend used in the Spinning Up benchmarking page, 
     swap L38 with:
@@ -183,6 +177,9 @@ def get_datasets(logdir, condition=None):
                 config = json.load(config_path)
                 if 'exp_name' in config:
                     exp_name = config['exp_name']
+                    exp_name = exp_name.replace("_random", '')
+                    exp_name = exp_name.replace("Fetch", '')
+                    exp_name = exp_name.replace("-v1", '')
                 exp_names.append(exp_name)
                 roots.append(root)
             except Exception as e:
@@ -216,6 +213,7 @@ def get_datasets(logdir, condition=None):
                 exp_data = pd.read_table(os.path.join(root, 'progress.txt'))
                 if clip_xaxis is not None:
                     exp_data = exp_data[:clip_xaxis]
+
                 line_num = len(exp_data)
                 print('line num:{}, read from {}'.format(line_num,
                                                          os.path.join(root, 'progress.txt')))
@@ -360,6 +358,8 @@ def make_plots(all_logdirs, legend=None,
         for s_str in exclude:
             exclude_str += s_str
     print("select_str:", select_str)
+    plt.subplots_adjust(left=0.2, right=0.8, top=0.9, bottom=0.1)
+    plt.ylim(0, 1.03)
     try:
         # 如果非远程，则显示图片
         plt.show()
@@ -368,11 +368,6 @@ def make_plots(all_logdirs, legend=None,
     fig.savefig(all_logdirs[0] + 'ep_reward_'+select_str+exclude_str+'.png',
                 bbox_inches='tight',
                 dpi=300)
-    # plt.savefig(all_logdirs[0] + 'ep_reward.png',
-    #            bbox_inches='tight',
-    #            dpi=300,
-    #            )
-
 
 
 def main():
@@ -404,9 +399,9 @@ def main():
         parser.add_argument('--exclude', default=[], )
         
     parser.add_argument('--legend', '-l', nargs='*')
-    parser.add_argument('--xaxis', '-x', default='TotalEnvInteracts',
+    parser.add_argument('--xaxis', '-x', default='Epoch',
                         help='选择什么为横坐标,默认为TotalEnvInteracts')
-    parser.add_argument('--value', '-y', default='Performance', nargs='*',
+    parser.add_argument('--value', '-y', default='TestSuccess', nargs='*',
                         help='选择特定变量为性能指标,默认为AverageTestEpRet')
     parser.add_argument('--count', action='store_true',
                         help='是否显示每个随机种子,加--count为显示')

@@ -1,0 +1,11 @@
+{
+    "args":	null,
+    "env":	null,
+    "exp_name":	"HER_mpi1_random_DDPGTorch_FetchPush-v1",
+    "logger":	null,
+    "logger_kwargs":	{
+        "exp_name":	"HER_mpi1_random_DDPGTorch_FetchPush-v1",
+        "output_dir":	"HER_DRLib_Torch_exps/2022-08-01_HER_mpi1_random_DDPGTorch_FetchPush-v1/2022-08-01_12-20-54-HER_mpi1_random_DDPGTorch_FetchPush-v1_s200"
+    },
+    "net":	null
+}

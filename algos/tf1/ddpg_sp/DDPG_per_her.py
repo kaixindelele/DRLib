@@ -86,7 +86,7 @@ class DDPG(OffPolicy):
 
         # Polyak averaging for target variables
         self.target_update = tf.group([tf.assign(v_targ, polyak * v_targ + (1 - polyak) * v_main)
-                                  for v_main, v_targ in zip(get_vars('main'), get_vars('target'))])
+                                      for v_main, v_targ in zip(get_vars('main'), get_vars('target'))])
 
         # Initializing targets to match main variables
         target_init = tf.group([tf.assign(v_targ, v_main)

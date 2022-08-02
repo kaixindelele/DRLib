@@ -79,6 +79,9 @@ class SAC_AUTO(OffPolicy):
         # Targets for Q and V regression
         v_backup = tf.stop_gradient(min_q_pi - alpha * logp_pi2)
         q_backup = self.r_ph + gamma * (1 - self.d_ph) * v_backup
+        # 当用于HER的时候，奖励值为{-1, 0}时，可以用下面的设置，如果奖励函数变了，记得修改
+        clip_return = 1 / (1 - gamma)
+        q_backup = tf.clip_by_value(q_backup, -clip_return, 0)
 
         # Soft actor-critic losses        
         pi_loss = tf.reduce_mean(alpha * logp_pi - q1_pi)

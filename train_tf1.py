@@ -1,7 +1,7 @@
 import numpy as np
 import gym
 import os, sys
-from arguments import get_args
+from tf1_arguments import get_args
 from mpi4py import MPI
 from subprocess import CalledProcessError
 
@@ -159,7 +159,7 @@ if __name__ == '__main__':
     os.environ['OMP_NUM_THREADS'] = '1'
     os.environ['MKL_NUM_THREADS'] = '1'
     os.environ['IN_MPI'] = '1'
-
+    os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
     # get the params
     args = get_args()
     from algos.tf1.td3_sp.TD3_per_her import TD3
