@@ -8,6 +8,15 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
   <img src="https://github.com/kaixindelele/DRLib/blob/main/DRLib.png" />
 </p>
 
+4种tf，3种torch的HER算法在三个操作任务的测试结果。
+
+### 画图脚本示例：
+
+```
+python spinup_utils/plot.py HER_DRLib_mpi1/2 --select Push
+```
+
+
 ## 项目特点：
 
 1. tf1和pytorch两个版本的算法，前者快，后者新，任君选择；
@@ -115,11 +124,6 @@ torch版本的没有测试完毕，有报错！
 
 4. plot results:https://blog.csdn.net/hehedadaq/article/details/114044217
 
-5. 画图脚本示例：
-
-```
-python spinup_utils/plot.py HER_DRLib_mpi1/2 --select Push
-```
 
 >超强版强化学习画图脚本！
 
