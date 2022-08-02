@@ -5,7 +5,7 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 **最新的、全面的实验结果：**
 
 <p float="middle">
-  <img src="https://github.com/kaixindelele/DRLib/blob/main/DRLib.png" />
+  <img src="https://github.com/kaixindelele/DRLib/blob/main/DRLib.jpg" />
 </p>
 
 4种tf，3种torch的HER算法在三个操作任务的测试结果。
