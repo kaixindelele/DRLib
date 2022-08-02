@@ -113,6 +113,14 @@ torch版本的没有测试完毕，有报错！
 
 4. plot results:https://blog.csdn.net/hehedadaq/article/details/114044217
 
+5. 画图示例：
+
+```
+python
+
+python spinup_utils/plot.py HER_DRLib_mpi1/2 --select Push
+```
+
 >超强版强化学习画图脚本！
 
 >相比于原始的plot.py文件，增加了如下的功能
@@ -137,10 +145,6 @@ torch版本的没有测试完毕，有报错！
 >
 >10.提供clip_xaxis值，对训练程度进行统一截断，图看起来更整洁。
 >seaborn版本0.8.1
-
-<p float="middle">
-  <img src="https://img-blog.csdnimg.cn/20210406161815132.png" />
-</p>
 
     
 ## 3. File tree and introduction:
