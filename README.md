@@ -113,11 +113,9 @@ torch版本的没有测试完毕，有报错！
 
 4. plot results:https://blog.csdn.net/hehedadaq/article/details/114044217
 
-5. 画图示例：
+5. 画图脚本示例：
 
 ```
-python
-
 python spinup_utils/plot.py HER_DRLib_mpi1/2 --select Push
 ```
 
