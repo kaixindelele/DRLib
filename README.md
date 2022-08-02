@@ -2,6 +2,8 @@
 A concise deep reinforcement learning library which integrats amost all of off policy RL algos with HER and PER. The library is written based on the code in https://github.com/openai/spinningup, and can be achieved with tensorflow or pytorch.
 Compared with spinning up, the multi-process and experimental grid wrapper have been deleted for easy application. Besides, the code in our library is convenient to debug with pycharm~
 
+**最新的、全面的实验结果：**
+
 <p float="middle">
   <img src="https://github.com/kaixindelele/DRLib/blob/main/DRLib.png" />
 </p>
