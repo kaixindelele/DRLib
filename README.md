@@ -16,6 +16,18 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 python spinup_utils/plot.py HER_DRLib_mpi1/2 --select Push
 ```
 
+### 保存一个训练好的模型：net/replay_buffer/norm!
+
+```
+python train_torch_mpi_norm_save.py
+```
+
+### 重载测试一个训练好的模型：net/replay_buffer/norm!
+
+```
+python train_torch_mpi_norm_load.py
+```
+
 
 ## 项目特点：
 
