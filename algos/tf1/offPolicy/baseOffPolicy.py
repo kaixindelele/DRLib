@@ -223,16 +223,16 @@ class OffPolicy:
         saver = tf.train.Saver()
         saver.save(self.sess, save_path=save_path + "/params", write_meta_graph=False)
         print("save model to:", save_path)
-        
-        
+
     def save_replay_buffer(self, path):
         """
         Save the replay buffer as a pickle file.
-        path = 'dense_replay.pkl'
+        path = 'replay.pkl'
+
         :param path: Path to the file where the replay buffer should be saved.
             if path is a str or pathlib.Path, the path is automatically created if necessary.
         """
-        with open(path, 'wb') as f:
+        with open(path + '/replay.pkl', 'wb') as f:
             pickle.dump(obj=self.replay_buffer, file=f,
                         protocol=pickle.HIGHEST_PROTOCOL)
 
@@ -242,6 +242,27 @@ class OffPolicy:
         :param path: Path to the pickled replay buffer.
         """        
         self.replay_buffer = pickle.load(open(path, 'rb'))
+
+    def save_norm(self, path):
+        """
+        Save the replay buffer as a pickle file.
+        path = 'norm.pkl'
+
+        :param path: Path to the file where the replay buffer should be saved.
+            if path is a str or pathlib.Path, the path is automatically created if necessary.
+        """
+        with open(path + "/norm.pkl", 'wb') as f:
+            pickle.dump(obj=self.norm, file=f,
+                        protocol=pickle.HIGHEST_PROTOCOL)
+
+    def load_norm(self, path):
+        """
+        Load last norm from a pickle file.
+        path = 'norm.pkl'
+
+        :param path: Path to the pickled replay buffer.
+        """
+        self.norm = pickle.load(open(path, 'rb'))
 
 
 if __name__ == '__main__':    
