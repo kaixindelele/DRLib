@@ -90,6 +90,7 @@ plt.legend(bbox_to_anchor=(x, y))
 1. [启人大佬：强化学习实验中的绘图技巧-使用seaborn绘制paper中的图片](https://zhuanlan.zhihu.com/p/75477750)
 2. [使用seaborn绘制强化学习中的图片](https://zhuanlan.zhihu.com/p/147847062)
 3. [强化学习横轴纵轴含义和画图基准细节](参考链接：https://spinningup.openai.com/en/latest/spinningup/bench.html#experiment-details)
+4. rl_plotter,可以直接下载使用
 
 
 
