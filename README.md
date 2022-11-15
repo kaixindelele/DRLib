@@ -12,8 +12,11 @@ Compared with spinning up, the multi-process and experimental grid wrapper have 
 
 ### 画图脚本示例：
 
+
 ```
 python spinup_utils/plot.py HER_DRLib_mpi1/2 --select Push
+
+#如果是Windows建议用绝对路径，否则找不到文件
 ```
 
 ### 保存一个训练好的模型：net/replay_buffer/norm!
