@@ -341,3 +341,8 @@ refer to:[off-policy全系列（DDPG-TD3-SAC-SAC-auto）+优先经验回放PER-�
 欢迎关注知乎帐号：[未入门的炼丹学徒](https://www.zhihu.com/people/heda-he-28)
 
 CSDN帐号：[https://blog.csdn.net/hehedadaq](https://blog.csdn.net/hehedadaq)
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kaixindelele/DRLib&type=Timeline)](https://star-history.com/#kaixindelele/DRLib&Timeline)
