@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco>
+	<compiler angle="radian" coordinate="local" meshdir="../stls/fetch" texturedir="../textures"></compiler>
+	<option timestep="0.002">
+		<flag warmstart="enable"></flag>
+	</option>
+
+	<include file="shared.xml"></include>
+	
+	<worldbody>
+		<geom name="floor0" pos="0.8 0.75 0" size="0.85 0.70 1" type="plane" condim="3" material="floor_mat"></geom>
+		<!--<body name="floor0" pos="0.8 0.75 0">-->
+			<!--<site name="target0" pos="0 0 0.5" size="0.02 0.02 0.02" rgba="1 0 0 1" type="sphere"></site>-->
+		<!--</body>-->
+
+		<include file="robot.xml"></include>
+
+		<body pos="1.3 0.75 0.18" name="table0">
+			<geom size="0.25 0.35 0.18" type="box" mass="2000" material="table_mat"></geom>
+		</body>
+
+		<site name="target0" pos="1.35 0.8 0.37" size="0.015 0.015 0.015" rgba="1 1 0 1" type="sphere"></site>
+		<!--<site name="target0" pos="1.345 0.815 0.37" size="0.015 0.015 0.015" rgba="1 1 0 1" type="sphere"></site>-->
+
+		<body name="w1" pos="1.29 0.8 0.4">
+		    <geom name="w1" type="box" size="0.04 0.1 0.04" rgba=".6 .6 .5 0.4" contype="15" conaffinity="15" material="floor_mat"/>
+		</body>
+        <!--<body name="w2" pos="w1_x+s_w1_x+(s_t_x-s_w1_x)//2 0.4+s_w2_x 0.4">-->
+		<body name="w2" pos="1.39 0.74 0.4">
+		    <geom name="w2" type="box" size="0.06 0.04 0.04" rgba=".6 .6 .5 0.4" contype="15" conaffinity="15" material="floor_mat"/>
+		</body>
+
+		<body name="w3" pos="1.39 0.86 0.4">
+		    <geom name="w3" type="box" size="0.06 0.04 0.04" rgba=".6 .6 .5 0.4" contype="15" conaffinity="15" material="floor_mat"/>
+		</body>
+                    <!--pos_x=1.55-size_x, pos_y=-->
+		<body name="w4" pos="1.41 0.8 0.4">
+		    <geom name="w4" type="box" size="0.04 0.02 0.04" rgba=".6 .6 .5 0.4" contype="15" conaffinity="15" material="floor_mat"/>
+		</body>
+
+		<light directional="true" ambient="0.2 0.2 0.2" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="false" pos="0 0 4" dir="0 0 -1" name="light0"></light>
+	</worldbody>
+	
+	<actuator></actuator>
+</mujoco>
