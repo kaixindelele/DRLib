@@ -2,6 +2,13 @@
 A concise deep reinforcement learning library which integrats amost all of off policy RL algos with HER and PER. The library is written based on the code in https://github.com/openai/spinningup, and can be achieved with tensorflow or pytorch.
 Compared with spinning up, the multi-process and experimental grid wrapper have been deleted for easy application. Besides, the code in our library is convenient to debug with pycharm~
 
+**欢迎大家关注我的最新工作D2SR，基于切换的密集转稀疏的高效奖励函数设计方法：**
+
+核心代码已经开源在本仓库：[D2SSR](https://github.com/kaixindelele/DRLib/tree/main/D2SSR)
+
+对应的中文版论文也在这个仓库中：[D2SR: Transferring Dense Reward Function to Sparse by Network Resetting](https://github.com/kaixindelele/DRLib/blob/main/D2SR_RCAR_%E4%B8%AD%E6%96%87%E7%89%88.pdf)
+
+
 **欢迎大家关注我的最新工作RHER，简洁高效的HER变体：**
 [https://github.com/kaixindelele/RHER](https://github.com/kaixindelele/RHER)
 
