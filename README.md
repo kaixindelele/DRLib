@@ -353,3 +353,14 @@ CSDN帐号：[https://blog.csdn.net/hehedadaq](https://blog.csdn.net/hehedadaq)
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=kaixindelele/DRLib&type=Timeline)](https://star-history.com/#kaixindelele/DRLib&Timeline)
+
+## 欢迎引用！
+
+@inproceedings{luo2023d2sr,
+  title={D2SR: Transferring dense reward function to sparse by network resetting},
+  author={Luo, Yongle and Wang, Yuxin and Dong, Kun and Liu, Yu and Sun, Zhiyong and Zhang, Qiang and Song, Bo},
+  booktitle={2023 IEEE International Conference on Real-time Computing and Robotics (RCAR)},
+  pages={906--911},
+  year={2023},
+  organization={IEEE}
+}
